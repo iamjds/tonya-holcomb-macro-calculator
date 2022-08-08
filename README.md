@@ -10,3 +10,8 @@ The Macro Calculator is initially meant to be a stand-alone application on it's 
 - Node 14.20.0
 - VueJS + Vite
 - TailwindCSS
+
+
+# Formulas
+
+[Shared Document](https://docs.google.com/spreadsheets/d/1jFUruOv8dH9oShEGz8CXqNxN5VwAE-VAQMLHoPzO1YY/edit#gid=1966392964)
