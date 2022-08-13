@@ -107,13 +107,13 @@ export default {
 </script>
 
 <template>
-    <form class="p-10 mx-auto max-w-xl">
+    <form class="p-10 mx-auto max-w-xl">        
         <div class="flex items-stretch gap-2 mb-6">
             <div
                 v-for="step in totalSteps"
-                class="h-2 w-full rounded text-purple-500"
+                class="h-2 w-full rounded text-black"
                 style="border: 1px solid;"
-                :class="{'bg-purple-500 ': step - 1 <= currentStep}"
+                :class="{'bg-[#612472] ': step - 1 <= currentStep}"
             ></div>
         </div>
 
@@ -125,21 +125,21 @@ export default {
                         {{fields[field].label}}
                         
                         <input
-                            class="input input-bordered m-2 w-full mx-0 rounded-sm"
+                            class="input border-none w-full mx-0 mt-2 mb-4 rounded"
                             type="text"
                             v-if="fields[field].fieldType === 'text'"                        
                             v-model="fields[field].value"
                         />
                         
                         <input
-                            class="input input-bordered m-2 w-full mx-0 rounded-sm"
+                            class="input border-none w-full mx-0 mt-2 mb-4 rounded"
                             type="number"
                             v-if="fields[field].fieldType === 'number'"                        
                             v-model="fields[field].value"
                         />
                         
                         <template v-if="fields[field].fieldType === 'select'">
-                        <select class="block mt-2 w-full rounded-sm">
+                        <select class="block mt-2 mb-4 w-full border-none rounded">
                             <option 
                               v-for="(option, id) in fields[field].value" 
                               value="{{id}}">{{option}}</option>
@@ -152,12 +152,12 @@ export default {
         </div>
 
         <footer class="flex justify-between gap-2 mt-5">
-            <button 
-              class="bg-[#9b59b6] py-1 px-5 text-white rounded-sm" 
+            <button             
+              class="bg-[#9b59b6] py-2 px-4 text-white rounded" 
               @click.prevent="previousStep"
               v-if="!isFirstStep">Previous</button>
             <button 
-              class="bg-[#612472] py-1 px-5 text-white rounded-sm" 
+              class="bg-[#612472] py-2 px-4 text-white rounded" 
               @click.prevent="nextStep"
               v-if="!isLastStep">Next</button>
         </footer>

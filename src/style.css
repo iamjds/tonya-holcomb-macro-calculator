@@ -3,3 +3,34 @@
 @tailwind components;
 
 @tailwind utilities;
+
+@font-face {
+    font-family: "Montserrat-Bold";
+    src: url("./assets/fonts/Montserrat-Bold.otf") format("opentype");
+}
+@font-face {
+    font-family: "Montserrat-Medium";
+    src: url("./assets/fonts/Montserrat-Medium.otf") format("opentype");
+}
+@font-face {
+    font-family: "Montserrat-Light";
+    src: url("./assets/fonts/Montserrat-Light.otf") format("opentype");
+}
+
+:root {
+    --heading-font: "Montserrat-Bold", Helvetica, sans-serif;
+    --body-font: "Montserrat-Medium", Arial, sans-serif;
+}
+
+#macro-calculator-app {
+    transform: translateY(25%);
+    height: 500px;
+}
+
+h1, h2, h3, a[data-button], button {
+    font-family: var(--heading-font);
+}
+
+p, label, input, a {
+    font-family: var(--body-font);
+}
