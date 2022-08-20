@@ -60,6 +60,7 @@ export default {
                 stageOfLife: {
                     label: 'Stage of Life',
                     value: [
+                        'Breastfeeding',
                         'Menstruating',
                         'Menopausal'
                     ],
@@ -87,7 +88,12 @@ export default {
         nextStep() {
             if(this.isLastStep) return;
             this.currentStep++;
-        }        
+        },
+        
+        handleSubmit(e) {
+            console.log(e);
+            e.preventDefault();
+        }
     },
 
     computed: {
@@ -107,7 +113,7 @@ export default {
 </script>
 
 <template>
-    <form class="p-10 mx-auto max-w-xl">        
+    <form @submit="handleSubmit" class="p-10 mx-auto max-w-xl">        
         <div class="flex items-stretch gap-2 mb-6">
             <div
                 v-for="step in totalSteps"
@@ -140,6 +146,7 @@ export default {
                         
                         <template v-if="fields[field].fieldType === 'select'">
                         <select class="block mt-2 mb-4 w-full border-none rounded">
+                            <option value="0" selected>-- choose {{fields[field].label}} --</option>
                             <option 
                               v-for="(option, id) in fields[field].value" 
                               value="{{id}}">{{option}}</option>
@@ -157,9 +164,13 @@ export default {
               @click.prevent="previousStep"
               v-if="!isFirstStep">Previous</button>
             <button 
-              class="bg-[#612472] py-2 px-4 text-white rounded" 
+              class="bg-[#9b59b6] py-2 px-4 text-white rounded ml-auto" 
               @click.prevent="nextStep"
               v-if="!isLastStep">Next</button>
+            <button
+              v-if="isLastStep"
+              class="bg-[#612472] py-2 px-4 text-white rounded" 
+              type="submit">Get Your Numbers</button>  
         </footer>
     </form>
 </template>
