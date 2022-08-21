@@ -1,5 +1,13 @@
 <script>
-
+    import dataFields from '../data-fields';
+    export default {
+        props: {
+            resultsData: {}
+        },
+        methods: {
+            
+        }
+    }
 </script>
 
 <template>

@@ -1,72 +1,15 @@
 <script>
+import dataFields from '../data-fields';
+import Results from './Results.vue';
+
 export default {
+    components: {
+        Results
+    }, 
+    
     data() {
         return {
-            fields: {
-                firstName: {
-                    label: 'First Name',
-                    value: '',
-                    fieldType: 'text'
-                },
-                lastName: {
-                    label: 'Last Name',
-                    value: '',
-                    fieldType: 'text'
-                },
-                email: {
-                    label: 'Email Address',
-                    value: '',
-                    fieldType: 'text'
-                },
-                age: {
-                    label: 'Age',
-                    value: '',
-                    fieldType: 'number'
-                },
-                weight: {
-                    label: 'Weight',
-                    value: '',
-                    fieldType: 'number'
-                },
-                heightInFeet: {
-                    label: 'Height (feet)',
-                    value: '',
-                    fieldType: 'number'
-                },
-                heightInInches: {
-                    label: 'Height (inches)',
-                    value: '',
-                    fieldType: 'number'
-                },
-                anatomy: {
-                    label: 'Anatomy',
-                    value: [
-                        'Male',
-                        'Female'
-                    ],
-                    fieldType: 'select'
-                },
-                activityLevel: {
-                    label: 'Activity Level',
-                    value: [
-                        'Sedentary',
-                        'Lightly Active',
-                        'Moderately Active',
-                        'Very Active',
-                        'Extremely Active'
-                    ],
-                    fieldType: 'select'
-                },
-                stageOfLife: {
-                    label: 'Stage of Life',
-                    value: [
-                        'Breastfeeding',
-                        'Menstruating',
-                        'Menopausal'
-                    ],
-                    fieldType: 'select'
-                },
-            },                         
+            fields: dataFields,                       
 
             steps: [
                 ['weight', 'heightInFeet', 'heightInInches', 'anatomy'],
@@ -77,7 +20,7 @@ export default {
 
             currentStep: 0,
         }
-    },
+    },    
 
     methods: {
         previousStep() {
@@ -91,8 +34,12 @@ export default {
         },
         
         handleSubmit(e) {
-            console.log(e);
             e.preventDefault();
+
+            const form = e.target;
+            const formData = new FormData(form);
+
+            console.log(this.$refs.formCompleted);
         }
     },
 
@@ -108,7 +55,11 @@ export default {
         isLastStep() {
             return this.currentStep === this.totalSteps - 1;
         }
-    }
+    },
+
+    // setup() {
+
+    // }
 }
 </script>
 
@@ -145,12 +96,12 @@ export default {
                         />
                         
                         <template v-if="fields[field].fieldType === 'select'">
-                        <select class="block mt-2 mb-4 w-full border-none rounded">
-                            <option value="0" selected>-- choose {{fields[field].label}} --</option>
-                            <option 
-                              v-for="(option, id) in fields[field].value" 
-                              value="{{id}}">{{option}}</option>
-                        </select>
+                            <select v-model="fields[field].value" class="block mt-2 mb-4 w-full border-none rounded">
+                                <option value="0" selected>-- choose {{fields[field].label}} --</option>
+                                <option 
+                                v-for="(option, id) in fields[field].options" 
+                                :value="{id}">{{option}}</option>
+                            </select>
                         </template> 
                         </label>
                     </div>
