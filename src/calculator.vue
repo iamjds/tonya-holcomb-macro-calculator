@@ -11,10 +11,20 @@ export default {
     Results
   },  
 
-  setup() {    
-    const calculationsClass = new Calculations;
-    const formCompleted = false;
-    return formCompleted;
+  data() {
+    return {
+      results: {}
+    }
+  },
+  
+  mounted() {
+    this.emitter.on("form-submit-event", (evt) => {  
+      if(evt.formCompleted) new Calculations();
+    }); 
+
+    this.emitter.on("finish-calculations", (evt) => {
+      console.log('calculations completed!', evt.results);
+    })
   }
 }
 </script>
@@ -24,6 +34,6 @@ export default {
     <h1 class="text-center">Macro Calculator</h1>
   </header>
 
-  <MultiStepForm v-if="!formCompleted" ref="formCompleted" />
-  <Results v-if="formCompleted" />
+  <MultiStepForm />
+  <Results results="results" />
 </template>

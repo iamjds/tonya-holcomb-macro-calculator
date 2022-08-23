@@ -1,17 +1,19 @@
 <script>
-    import dataFields from '../data-fields';
     export default {
-        props: {
-            resultsData: {}
+        name: 'Results',
+        props(){
+            results: Object
         },
-        methods: {
-            
-        }
+        data() {
+            return {
+                showResults: false
+            }
+        },     
     }
 </script>
 
 <template>
-    <section id="results-data-container">
+    <section v-if="results != null" id="results-data-container">
         <p>let's get to those results!</p>
     </section>
 </template>

@@ -1,27 +1,21 @@
 <script>
 import dataFields from '../data-fields';
-import Results from './Results.vue';
 
 export default {
-    components: {
-        Results
-    }, 
-    
+    name: 'MultiStepForm',
     data() {
         return {
             fields: dataFields,                       
-
+            currentStep: 0,
+            formCompleted: false,
             steps: [
                 ['weight', 'heightInFeet', 'heightInInches', 'anatomy'],
                 ['activityLevel'],
                 ['stageOfLife'],
                 ['firstName','lastName','age','email']
-            ],
-
-            currentStep: 0,
+            ]            
         }
-    },    
-
+    },   
     methods: {
         previousStep() {
             if(this.isFirstStep) return;
@@ -39,10 +33,10 @@ export default {
             const form = e.target;
             const formData = new FormData(form);
 
-            console.log(this.$refs.formCompleted);
+            this.formCompleted = true;
+            this.emitter.emit("form-submit-event", {'formCompleted': true});
         }
     },
-
     computed: {
         totalSteps() {
             return this.steps.length;
@@ -55,11 +49,7 @@ export default {
         isLastStep() {
             return this.currentStep === this.totalSteps - 1;
         }
-    },
-
-    // setup() {
-
-    // }
+    }
 }
 </script>
 
