@@ -9,7 +9,7 @@ export default {
             currentStep: 0,
             formCompleted: false,
             steps: [
-                ['weight', 'heightInFeet', 'heightInInches', 'anatomy'],
+                ['weight', 'heightInFeet', 'heightInInches', 'gender'],
                 ['activityLevel'],
                 ['stageOfLife'],
                 ['firstName','lastName','age','email']
@@ -66,6 +66,11 @@ export default {
 
         <div v-for="(fieldKeys, step) in steps">
             <div v-if="currentStep === step">
+
+                <div v-if="step == 1">
+                    <p class="mb-6">If in doubt, choose an activity level below what you think you do.</p>
+                </div>
+
                 <div v-for="field in fieldKeys" class="relative">
                     <div class="form-control">
                         <label class="label">
@@ -75,6 +80,14 @@ export default {
                             class="input border-none w-full mx-0 mt-2 mb-4 rounded"
                             type="text"
                             v-if="fields[field].fieldType === 'text'"                        
+                            v-model="fields[field].value"
+                        />
+
+                        <input
+                            :name="fields[field].name"
+                            class="input border-none w-full mx-0 mt-2 mb-4 rounded"
+                            type="radio"
+                            v-if="fields[field].fieldType === 'radio'"                        
                             v-model="fields[field].value"
                         />
                         
@@ -87,7 +100,8 @@ export default {
                         
                         <template v-if="fields[field].fieldType === 'select'">
                             <select v-model="fields[field].value" class="block mt-2 mb-4 w-full border-none rounded">
-                                <option value="0" selected>-- choose {{fields[field].label}} --</option>
+                                <option v-if="fields[field].placeholder != null" value="0" selected>{{fields[field].placeholder}}</option>
+                                <option v-if="fields[field].placeholder == undefined" value="0" selected>-- choose {{fields[field].label}} --</option>
                                 <option 
                                 v-for="(option, id) in fields[field].options" 
                                 :value="{id}">{{option}}</option>

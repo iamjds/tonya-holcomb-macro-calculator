@@ -34,14 +34,14 @@ const fields = {
         value: '',
         fieldType: 'number'
     },
-    anatomy: {
-        label: 'Anatomy',
+    gender: {
+        label: 'Gender',
         value: '0',
         fieldType: 'select',
         options: [
             'Male',
             'Female'
-        ]
+        ],
     },
     activityLevel: {
         label: 'Activity Level',
@@ -57,13 +57,15 @@ const fields = {
     },
     stageOfLife: {
         label: 'Stage of Life',
+        name: 'stage-of-life',
         value: '0',
         options: [
             'Breastfeeding',
             'Menstruating',
             'Menopausal'
         ],
-        fieldType: 'select'
+        fieldType: 'radio',
+        placeholder: 'Select the option that best applies to you.'
     }
 }
 

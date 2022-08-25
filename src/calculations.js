@@ -45,10 +45,10 @@ export default class Calculations {
 
     getPhaseCountFromDataInputs() {
         let phases = 1;
-        const anatomySelected = this.calculationData.anatomy.value.id;
+        const genderSelected = this.calculationData.gender.value.id;
         const stageOfLifeSelected = this.calculationData.stageOfLife.value.id;
 
-        if(anatomySelected == 1){ // Woman
+        if(genderSelected == 1){ // Woman
             if(stageOfLifeSelected == 1) { // Menstruating
                 phases = 3;
             }
