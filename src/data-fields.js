@@ -60,9 +60,17 @@ const fields = {
         name: 'stage-of-life',
         value: '0',
         options: [
-            'Breastfeeding',
-            'Menstruating',
-            'Menopausal'
+            'I am menstruating, my periods are regular and I am not on oral birth control.',
+            'I am menstruating, my periods are regular and I am on oral birth control.',
+            'I am menstruating and my periods are irregular. (You may select this option whether or not you’re on birth control).',
+            'I am currently pregnant and in my first trimester',
+            'I am currently pregnant and in my second trimester.',
+            'I am currently pregnant and in my third trimester.',
+            'I am breastfeeding and have gotten my period and it’s regular.',
+            'I am breastfeeding and have gotten my period and it’s irregular.',
+            'I am in menopause.',
+            'I am post-menopausal.',
+            'None of these apply to me.'
         ],
         fieldType: 'radio',
         placeholder: 'Select the option that best applies to you.'

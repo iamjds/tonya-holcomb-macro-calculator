@@ -1,8 +1,12 @@
 <script>
 import dataFields from '../data-fields';
+import RadioInput from './RadioInput.vue';
 
 export default {
     name: 'MultiStepForm',
+    components: {
+        RadioInput
+    },
     data() {
         return {
             fields: dataFields,                       
@@ -71,7 +75,7 @@ export default {
                     <p class="mb-6">If in doubt, choose an activity level below what you think you do.</p>
                 </div>
 
-                <div v-for="field in fieldKeys" class="relative">
+                <div v-for="field in fieldKeys" class="relative" :class="{'form-container-max-height' : step == 2}">
                     <div class="form-control">
                         <label class="label">
                         {{fields[field].label}}
@@ -83,13 +87,7 @@ export default {
                             v-model="fields[field].value"
                         />
 
-                        <input
-                            :name="fields[field].name"
-                            class="input border-none w-full mx-0 mt-2 mb-4 rounded"
-                            type="radio"
-                            v-if="fields[field].fieldType === 'radio'"                        
-                            v-model="fields[field].value"
-                        />
+                        <RadioInput v-if="fields[field].fieldType === 'radio'" :fieldKey="field"></RadioInput>
                         
                         <input
                             class="input border-none w-full mx-0 mt-2 mb-4 rounded"
@@ -129,3 +127,10 @@ export default {
         </footer>
     </form>
 </template>
+
+<style scoped>
+    .form-container-max-height {
+        max-height: 330px;
+        overflow-y: scroll;
+    }
+</style>
