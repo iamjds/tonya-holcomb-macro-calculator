@@ -1,11 +1,13 @@
 <script>
 import dataFields from '../data-fields';
 import RadioInput from './RadioInput.vue';
+import SelectField from './SelectField.vue';
 
 export default {
     name: 'MultiStepForm',
     components: {
-        RadioInput
+        RadioInput,
+        SelectField
     },
     data() {
         return {
@@ -14,7 +16,7 @@ export default {
             formCompleted: false,
             steps: [
                 ['weight', 'heightInFeet', 'heightInInches', 'gender'],
-                ['activityLevel'],
+                ['activityLevel', 'goals'],
                 ['stageOfLife'],
                 ['firstName','lastName','age','email']
             ]            
@@ -75,37 +77,29 @@ export default {
                     <p class="mb-6">If in doubt, choose an activity level below what you think you do.</p>
                 </div>
 
-                <div v-for="field in fieldKeys" class="relative" :class="{'form-container-max-height' : step == 2}">
+                <div v-for="field in fieldKeys" class="relative">
                     <div class="form-control">
-                        <label class="label">
-                        {{fields[field].label}}
+                        <label class="label form-field-label" :class="{'mb-3 block' : step == 2}">{{fields[field].label}}</label>
                         
-                        <input
-                            class="input border-none w-full mx-0 mt-2 mb-4 rounded"
-                            type="text"
-                            v-if="fields[field].fieldType === 'text'"                        
-                            v-model="fields[field].value"
-                        />
+                        <div class="field-group" :class="{'form-container-max-height rounded' : step == 2}">
+                            <input
+                                class="input border-none w-full mx-0 mt-2 mb-4 rounded"
+                                type="text"
+                                v-if="fields[field].fieldType === 'text'"                        
+                                v-model="fields[field].value"
+                            />
 
-                        <RadioInput v-if="fields[field].fieldType === 'radio'" :fieldKey="field"></RadioInput>
-                        
-                        <input
-                            class="input border-none w-full mx-0 mt-2 mb-4 rounded"
-                            type="number"
-                            v-if="fields[field].fieldType === 'number'"                        
-                            v-model="fields[field].value"
-                        />
-                        
-                        <template v-if="fields[field].fieldType === 'select'">
-                            <select v-model="fields[field].value" class="block mt-2 mb-4 w-full border-none rounded">
-                                <option v-if="fields[field].placeholder != null" value="0" selected>{{fields[field].placeholder}}</option>
-                                <option v-if="fields[field].placeholder == undefined" value="0" selected>-- choose {{fields[field].label}} --</option>
-                                <option 
-                                v-for="(option, id) in fields[field].options" 
-                                :value="{id}">{{option}}</option>
-                            </select>
-                        </template> 
-                        </label>
+                            <RadioInput v-if="fields[field].fieldType === 'radio'" :fieldKey="field"></RadioInput>
+                            
+                            <input
+                                class="input border-none w-full mx-0 mt-2 mb-4 rounded"
+                                type="number"
+                                v-if="fields[field].fieldType === 'number'"                        
+                                v-model="fields[field].value"
+                            />
+
+                            <SelectField v-if="fields[field].fieldType === 'select'" :fieldKey="field"></SelectField>                                                    
+                        </div>
                     </div>
                 </div>
             </div>
@@ -130,7 +124,18 @@ export default {
 
 <style scoped>
     .form-container-max-height {
-        max-height: 330px;
+        padding: 20px;
+        max-height: 300px;
         overflow-y: scroll;
+        outline: 1px solid #cecece;
+    }
+    .form-container-max-height::-webkit-scrollbar {
+        width: 5px;
+    }
+    .form-container-max-height::-webkit-scrollbar-track {
+        background-color: #ede5ee;
+    }
+    .form-container-max-height::-webkit-scrollbar-thumb {
+        box-shadow: inset 0 0 6px #9b59b6;
     }
 </style>
