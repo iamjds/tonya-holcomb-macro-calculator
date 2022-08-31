@@ -27,12 +27,14 @@ const fields = {
     heightInFeet: {
         label: 'Height (feet)',
         value: '',
-        fieldType: 'number'
+        fieldType: 'number',
+        width: 'half'
     },
     heightInInches: {
         label: 'Height (inches)',
         value: '',
-        fieldType: 'number'
+        fieldType: 'number',
+        width: 'half'
     },
     gender: {
         label: 'Gender',
@@ -79,17 +81,18 @@ const fields = {
         name: 'stage-of-life',
         value: 0,
         options: [
-            'I am menstruating, my periods are regular and I am not on oral birth control.',
-            'I am menstruating, my periods are regular and I am on oral birth control.',
-            'I am menstruating and my periods are irregular. (You may select this option whether or not you’re on birth control).',
-            'I am currently pregnant and in my first trimester',
-            'I am currently pregnant and in my second trimester.',
-            'I am currently pregnant and in my third trimester.',
-            'I am breastfeeding and have gotten my period and it’s regular.',
-            'I am breastfeeding and have gotten my period and it’s irregular.',
-            'I am in menopause.',
-            'I am post-menopausal.',
-            'None of these apply to me.'
+            {value: 0, label: ''},
+            {value: 1, label: 'I am menstruating, my periods are regular and I am not on oral birth control.'},
+            {value: 2, label: 'I am menstruating, my periods are regular and I am on oral birth control.'},
+            {value: 3, label: 'I am menstruating and my periods are irregular. (You may select this option whether or not you’re on birth control).'},
+            {value: 4, label: 'I am currently pregnant and in my first trimester'},
+            {value: 5, label: 'I am currently pregnant and in my second trimester.'},
+            {value: 6, label: 'I am currently pregnant and in my third trimester.'},
+            {value: 7, label: 'I am breastfeeding and have gotten my period and it’s regular.'},
+            {value: 8, label: 'I am breastfeeding and have gotten my period and it’s irregular.'},
+            {value: 9, label: 'I am in menopause.'},
+            {value: 10, label: 'I am post-menopausal.'},
+            {value: 11, label: 'None of these apply to me.'}
         ],
         fieldType: 'radio',
         placeholder: 'Select the option that best applies to you.'

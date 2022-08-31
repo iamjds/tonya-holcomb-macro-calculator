@@ -36,11 +36,10 @@ export default {
         handleSubmit(e) {
             e.preventDefault();
 
-            const form = e.target;
-            const formData = new FormData(form);
+            console.info(this.fields);
 
-            this.formCompleted = true;
-            this.emitter.emit("form-submit-event", {'formCompleted': true});
+            // this.formCompleted = true;
+            // this.emitter.emit("form-submit-event", {'formCompleted': true});
         }
     },
     computed: {
@@ -71,13 +70,13 @@ export default {
         </div>
 
         <div v-for="(fieldKeys, step) in steps">
-            <div v-if="currentStep === step">
+            <div class="flex flex-wrap gap-4" v-if="currentStep === step">
 
                 <div v-if="step == 1">
                     <p class="mb-6">If in doubt, choose an activity level below what you think you do.</p>
                 </div>
 
-                <div v-for="field in fieldKeys" class="relative">
+                <div v-for="field in fieldKeys" class="relative" :class="{'w-60': fields[field].width == 'half', 'w-full': fields[field].width != 'half'}">
                     <div class="form-control">
                         <label class="label form-field-label" :class="{'mb-3 block' : step == 2}">{{fields[field].label}}</label>
                         
@@ -92,7 +91,7 @@ export default {
                             <RadioInput v-if="fields[field].fieldType === 'radio'" :fieldKey="field"></RadioInput>
                             
                             <input
-                                class="input border-none w-full mx-0 mt-2 mb-4 rounded"
+                                class="input border-none w-full mx-0 mt-2 mb-4 rounded"                                
                                 type="number"
                                 v-if="fields[field].fieldType === 'number'"                        
                                 v-model="fields[field].value"
@@ -124,7 +123,7 @@ export default {
 
 <style scoped>
     .form-container-max-height {
-        padding: 20px;
+        padding: 0px 20px 10px;
         max-height: 300px;
         overflow-y: scroll;
         outline: 1px solid #cecece;
