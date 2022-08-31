@@ -2,12 +2,14 @@ const fields = {
     firstName: {
         label: 'First Name',
         value: '',
-        fieldType: 'text'
+        fieldType: 'text',
+        width: 'half'
     },
     lastName: {
         label: 'Last Name',
         value: '',
-        fieldType: 'text'
+        fieldType: 'text',
+        width: 'half'
     },
     email: {
         label: 'Email Address',
@@ -16,23 +18,23 @@ const fields = {
     },
     age: {
         label: 'Age',
-        value: '',
+        value: 0,
         fieldType: 'number'
     },
     weight: {
         label: 'Weight',
-        value: '',
+        value: 0,
         fieldType: 'number'
     },
     heightInFeet: {
         label: 'Height (feet)',
-        value: '',
+        value: 0,
         fieldType: 'number',
         width: 'half'
     },
     heightInInches: {
         label: 'Height (inches)',
-        value: '',
+        value: 0,
         fieldType: 'number',
         width: 'half'
     },
@@ -74,7 +76,8 @@ const fields = {
             'Pregnant'
         ],
         note: "If you\'re breastfeeding a newborn to one-year-old, your body is burning approximately an additional 500 calories a day, therefore we don\'t recommend that you select \"Release\" and instead choose \"Maintain\" to balance your blood sugar, heal your hormones and harmonize your body.",
-        fieldType: 'select'
+        fieldType: 'select',
+        placeholder: '-- choose Goal --'
     },
     stageOfLife: {
         label: 'Stage of Life',

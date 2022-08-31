@@ -19,7 +19,7 @@ export default {
   
   mounted() {
     this.emitter.on("form-submit-event", (evt) => {  
-      if(evt.formCompleted) new Calculations();
+      if(evt.formCompleted) new Calculations(this.emitter);
     }); 
 
     this.emitter.on("finish-calculations", (evt) => {

@@ -36,10 +36,8 @@ export default {
         handleSubmit(e) {
             e.preventDefault();
 
-            console.info(this.fields);
-
-            // this.formCompleted = true;
-            // this.emitter.emit("form-submit-event", {'formCompleted': true});
+            this.formCompleted = true;
+            this.emitter.emit("form-submit-event", {'formCompleted': true});
         }
     },
     computed: {
