@@ -26,7 +26,10 @@ export default {
 </script>
 
 <template>
-    <span class="italic leading-4 text-sm" v-if="optionsNote">{{optionsNote}}</span>
+    <span class="italic leading-4 text-sm block" v-if="fields[fieldKey].note">{{fields[fieldKey].note}}</span>
+    <span class="leading-4 text-sm" v-if="optionsNote" v-html="optionsNote"></span>
+    
+
     <select @change="onSelectChange($event, fieldKey)" v-model="fields[fieldKey].value" class="block mt-2 mb-4 w-full border-none rounded">
         <option v-if="fields[fieldKey].placeholder != null" value="0" selected>{{fields[fieldKey].placeholder}}</option>
         <option v-if="fields[fieldKey].placeholder == undefined" value="0" selected>-- choose {{fields[fieldKey].label}} --</option>

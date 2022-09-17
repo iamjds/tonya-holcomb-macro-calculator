@@ -68,12 +68,7 @@ export default {
         </div>
 
         <div v-for="(fieldKeys, step) in steps">
-            <div class="flex flex-wrap gap-4" v-if="currentStep === step">
-
-                <div v-if="step == 1">
-                    <p class="mb-6">If in doubt, choose an activity level below what you think you do.</p>
-                </div>
-
+            <div class="flex flex-wrap gap-4" v-if="currentStep === step">               
                 <div v-for="field in fieldKeys" class="relative" :class="{'w-60': fields[field].width == 'half', 'w-full': fields[field].width != 'half'}">
                     <div class="form-control">
                         <label class="label form-field-label" :class="{'mb-3 block' : step == 2}">{{fields[field].label}}</label>
@@ -114,7 +109,7 @@ export default {
             <button
               v-if="isLastStep"
               class="bg-[#612472] py-2 px-4 text-white rounded" 
-              type="submit">Get Your Numbers</button>  
+              type="submit">Get Your Results</button>  
         </footer>
     </form>
 </template>
