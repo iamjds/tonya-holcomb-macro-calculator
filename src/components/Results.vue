@@ -13,7 +13,8 @@
 </script>
 
 <template>
-    <section v-if="results != null" id="results-data-container">
-        <p>let's get to those results!</p>
+    <section id="results-data-container" class="mt-6">
+        <p class="text-center">let's get to those results!</p>
+        <div v-for="macros in results">{{ macros }}</div>
     </section>
 </template>

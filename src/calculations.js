@@ -143,30 +143,32 @@ export default class Calculations {
         }
     }
 
-    calculationMenstruationPhaseMacros(obj) {
+    calculationMenstruationPhaseMacros(phase, workingObj) {
         const selectedGoal = this.calculationData.goals.value.id;
-        let multiplier = 0.00000;
         let caloriesToConsumePerDay = this.tdee;
 
         /**
          * STEP #1
          */
         // Release Weight
-        if(selectedGoal == 0){ 
-            multiplier = 0.85;
-            caloriesToConsumePerDay = this.tdee * multiplier;
+        if(selectedGoal == 0){             
+            if(phase == 1) caloriesToConsumePerDay = parseFloat(((this.tdee * 30 * 1.1 * .17) / 5 * .84).toFixed(6));
+            if(phase == 2) caloriesToConsumePerDay = parseFloat(((this.tdee * 30 * .4 * .7) / 12 * .85).toFixed(6));
+            if(phase == 3) caloriesToConsumePerDay = parseFloat(((this.tdee * 30 * .432 * 1.2) / 13 * .85).toFixed(6));
         }
 
         // Maintain Weight
-        if(selectedGoal == 0){ 
-            multiplier = 0.85;
-            caloriesToConsumePerDay = this.tdee * multiplier;
+        if(selectedGoal == 1){ 
+            if(phase == 1) caloriesToConsumePerDay = parseFloat(((this.tdee * 30 * 1.1 * .17) / 5).toFixed(6));
+            if(phase == 2) caloriesToConsumePerDay = parseFloat(((this.tdee * 30 * .4 * .7) / 12).toFixed(6));
+            if(phase == 3) caloriesToConsumePerDay = parseFloat(((this.tdee * 30 * .43 * 1.2) / 13).toFixed(6));
         }
 
         // Gain Weight
         if(selectedGoal == 2){
-            multiplier = 1.15;
-            caloriesToConsumePerDay = this.tdee * multiplier;
+            if(phase == 1) caloriesToConsumePerDay = parseFloat(((this.tdee * 30 * 1.1 * .17) / 5 * 1.15).toFixed(6));
+            if(phase == 2) caloriesToConsumePerDay = parseFloat(((this.tdee * 30 * .4 * .7) / 12 * 1.15).toFixed(6));
+            if(phase == 3) caloriesToConsumePerDay = parseFloat(((this.tdee * 30 * .43 * 1.2) / 13 * 1.15).toFixed(6));
         }
 
         /**
@@ -177,16 +179,16 @@ export default class Calculations {
         /**
          * STEP #2
          */
-        const proteinCaloriesWorkingFormula = caloriesToConsumePerDay * 0.23;
-        const fatCaloriesWorkingFormula = caloriesToConsumePerDay * 0.4;
-        const carbsCalorieWorkingFormula = caloriesToConsumePerDay * 0.37;
+        const proteinCaloriesWorkingFormula = caloriesToConsumePerDay * workingObj.step2.proteinWorking;
+        const fatCaloriesWorkingFormula = caloriesToConsumePerDay * workingObj.step2.fatWorking;
+        const carbsCalorieWorkingFormula = caloriesToConsumePerDay * workingObj.step2.carbsWorking;
 
         /**
          * STEP #3
          */
-        const proteinCaloriesToGrams = proteinCaloriesWorkingFormula / 4;
-        const fatCaloriesToGrams = fatCaloriesWorkingFormula / 9;
-        const carbsCaloriesToGrams = carbsCalorieWorkingFormula / 4;
+        const proteinCaloriesToGrams = proteinCaloriesWorkingFormula / workingObj.step3.proteinToGrams;
+        const fatCaloriesToGrams = fatCaloriesWorkingFormula / workingObj.step3.fatsToGrams;
+        const carbsCaloriesToGrams = carbsCalorieWorkingFormula / workingObj.step3.carbsToGrams;
 
         return {
             protein: Math.round(proteinCaloriesToGrams),
@@ -196,7 +198,7 @@ export default class Calculations {
     }
 
     getMacrosForPhase(phaseIndex) {
-        const calculationMultiplierObj = {
+        let calculationMultiplierObj = {
             step2: {
                 proteinWorking: 0.32,
                 fatWorking: 0.4,
@@ -208,7 +210,16 @@ export default class Calculations {
                 carbsToGrams: 4
             }
         };
-        const macroResults = this.calculationMenstruationPhaseMacros(calculationMultiplierObj);
+
+        if(phaseIndex == 3) {
+            calculationMultiplierObj.step2 = {
+                proteinWorking: 0.32,
+                fatWorking: 0.3,
+                carbsWorking: 0.38
+            }
+        }
+
+        const macroResults = this.calculationMenstruationPhaseMacros(phaseIndex, calculationMultiplierObj);
 
         return {
             macros: macroResults

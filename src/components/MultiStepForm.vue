@@ -21,7 +21,7 @@ export default {
                 ['firstName','lastName','age','email']
             ]            
         }
-    },   
+    },    
     methods: {
         previousStep() {
             if(this.isFirstStep) return;
@@ -36,10 +36,9 @@ export default {
         handleSubmit(e) {
             e.preventDefault();
 
-            this.formCompleted = true;
             this.emitter.emit("form-submit-event", {'formCompleted': true});
         }
-    },
+    },    
     computed: {
         totalSteps() {
             return this.steps.length;
