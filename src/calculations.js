@@ -197,6 +197,47 @@ export default class Calculations {
         }
     }
 
+    nonCyclicalMacros() {
+        const selectedGoal = this.calculationData.goals.value.id;
+        let multiplier = 1;
+        let caloriesToConsumePerDay = this.tdee;
+
+        /**
+         * STEP #1
+         */
+        // Release Weight
+        if(selectedGoal == 0){ 
+            multiplier = 0.85;
+            caloriesToConsumePerDay = this.tdee * multiplier;
+        }
+
+        // Gain Weight
+        if(selectedGoal == 2){
+            multiplier = 1.15;
+            caloriesToConsumePerDay = this.tdee * multiplier;
+        }
+
+        /**
+         * STEP #2
+         */
+        const proteinCaloriesWorkingFormula = caloriesToConsumePerDay * 0.3;
+        const fatCaloriesWorkingFormula = caloriesToConsumePerDay * 0.38;
+        const carbsCalorieWorkingFormula = caloriesToConsumePerDay * 0.32;
+
+        /**
+         * STEP #3
+         */
+        const proteinCaloriesToGrams = proteinCaloriesWorkingFormula / 4;
+        const fatCaloriesToGrams = fatCaloriesWorkingFormula / 9;
+        const carbsCaloriesToGrams = carbsCalorieWorkingFormula / 4;
+
+        return {
+            protein: Math.round(proteinCaloriesToGrams),
+            fat: Math.round(fatCaloriesToGrams),
+            carbs: Math.round(carbsCaloriesToGrams)
+        }
+    }
+
     getMacrosForPhase(phaseIndex) {
         let calculationMultiplierObj = {
             step2: {
@@ -264,8 +305,13 @@ export default class Calculations {
                 monthlyPhases['phase1'] = this.calculateGeneralMacros();
             }
 
-            if(gender == 1 && (stageOfLife == 9 || stageOfLife == 10)) {
-                monthlyPhases['phase1'] = this.calculateMenopausalMacros();
+            if(gender == 1){
+                if([2,3,4,5,6,7,8].includes(stageOfLife)) {
+                    monthlyPhases['phase1'] = this.nonCyclicalMacros();
+                } 
+                if(stageOfLife == 9 || stageOfLife == 10) {
+                    monthlyPhases['phase1'] = this.calculateMenopausalMacros();
+                }
             }
         }
 

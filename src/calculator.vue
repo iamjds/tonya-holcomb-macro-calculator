@@ -31,6 +31,8 @@ export default {
       console.log('calculations completed!', evt.results);
       this.results = evt.results;
 
+      // this.emitter.emit("macro-results", {'macroResults': evt.results});
+
       setTimeout(() => {
         this.calculating = false;
         this.resultsAreIn = true;
@@ -47,5 +49,5 @@ export default {
 
   <MultiStepForm v-if="calculating == false && resultsAreIn == false" />
   <Loader v-show="calculating == true" />  
-  <Results v-show="resultsAreIn == true" results="results" />
+  <Results v-show="resultsAreIn == true" :macros="results" />
 </template>
