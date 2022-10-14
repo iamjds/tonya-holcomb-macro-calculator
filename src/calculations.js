@@ -61,7 +61,7 @@ export default class Calculations {
         return phases;
     }
 
-    calculateGeneralMacros() {
+    calculateMaleMacros() {
         const selectedGoal = this.calculationData.goals.value.id;
         let multiplier = 1;
         let caloriesToConsumePerDay = this.tdee;
@@ -197,7 +197,7 @@ export default class Calculations {
         }
     }
 
-    nonCyclicalMacros() {
+    calculateGeneralMacros() {
         const selectedGoal = this.calculationData.goals.value.id;
         let multiplier = 1;
         let caloriesToConsumePerDay = this.tdee;
@@ -302,15 +302,16 @@ export default class Calculations {
         if(phaseCount == 1) {
             // Male
             if(gender == 0) {
-                monthlyPhases['phase1'] = this.calculateGeneralMacros();
+                monthlyPhases['male'] = this.calculateMaleMacros();
             }
 
+            // Female
             if(gender == 1){
                 if([2,3,4,5,6,7,8].includes(stageOfLife)) {
-                    monthlyPhases['phase1'] = this.nonCyclicalMacros();
+                    monthlyPhases['general'] = this.calculateGeneralMacros();
                 } 
-                if(stageOfLife == 9 || stageOfLife == 10) {
-                    monthlyPhases['phase1'] = this.calculateMenopausalMacros();
+                if([9,10].includes(stageOfLife)) {
+                    monthlyPhases['meno'] = this.calculateMenopausalMacros();
                 }
             }
         }
@@ -319,6 +320,7 @@ export default class Calculations {
             for (let index = 1; index < (phaseCount+1); index++) {
                 monthlyPhases['phase' + index] = this.getMacrosForPhase(index);            
             }
+            monthlyPhases['general'] = this.calculateGeneralMacros();
         }
 
         return monthlyPhases;
