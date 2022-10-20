@@ -68,7 +68,7 @@ export default {
 
         <div v-for="(fieldKeys, step) in steps">
             <div class="flex flex-wrap gap-4" v-if="currentStep === step">               
-                <div v-for="field in fieldKeys" class="relative" :class="{'w-60': fields[field].width == 'half', 'w-full': fields[field].width != 'half'}">
+                <div v-for="field in fieldKeys" class="relative" :class="{'md:w-60 w-full': fields[field].width == 'half', 'w-full': fields[field].width != 'half'}">
                     <div class="form-control">
                         <label class="label form-field-label" :class="{'mb-3 block' : step == 2}">{{fields[field].label}}</label>
                         
