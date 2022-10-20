@@ -262,9 +262,7 @@ export default class Calculations {
 
         const macroResults = this.calculationMenstruationPhaseMacros(phaseIndex, calculationMultiplierObj);
 
-        return {
-            macros: macroResults
-        }
+        return macroResults;
     }
 
     calculatBMR() {

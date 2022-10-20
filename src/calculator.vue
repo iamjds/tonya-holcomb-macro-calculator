@@ -28,10 +28,7 @@ export default {
     }); 
 
     this.emitter.on("finish-calculations", (evt) => {
-      console.log('calculations completed!', evt.results);
       this.results = evt.results;
-
-      // this.emitter.emit("macro-results", {'macroResults': evt.results});
 
       setTimeout(() => {
         this.calculating = false;
