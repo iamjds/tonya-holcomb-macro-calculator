@@ -1,5 +1,4 @@
 <script>
-// import { Circle10 } from 'vue-loading-spinner';
 export default {
     name: 'Loader'    
 }
@@ -9,24 +8,15 @@ export default {
     <div id="loader-container" class="mt-6">
         <p class="text-2xl text-center">We are calculating your custom macro results</p>
 
-        <div class="circ" style="--color: rgb(111, 140, 222); --size: 150px;">
-            <div class="circ" style="--color: rgb(248, 10, 105); --size: 125px;">
-                <div class="circ" style="--color: white; --size: 100px;"> </div>
+        <div class="circ" style="--color: #612472; --size: 150px; margin: 60px auto 0;">
+            <div class="circ" style="--color: #cecece; --size: 125px;">
+                <div class="circ" style="--color: #9b59b6; --size: 100px;"> </div>
             </div>
         </div>
     </div>
 </template>
 
 <style scoped>
-    /* .spinner.spinner--circle-10 {
-        height: 100px !important;
-        width: 100px !important;
-        margin: 40px auto 0;
-        transform: scale(2);
-    }     */
-
-    
-
     .circ {
         display: flex;
         align-items: center;
