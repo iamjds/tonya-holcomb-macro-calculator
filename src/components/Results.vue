@@ -1,6 +1,11 @@
 <script>
+import ResultCardRow from './ResultCardRow.vue';
+
 export default {
     name: 'Results',
+    components:  {
+        ResultCardRow
+    },
     props: {
         macros: Object
     },
@@ -12,10 +17,12 @@ export default {
 
 <template>
     <section id="results-data-container" class="mt-6 mx-auto max-w-xl">
-        <p class="text-center mb-4">Here are your personalized macros!</p>
-        <!-- <div v-for="phase in macros">{{ phase.protein }}</div> -->
+        <template v-for="(phase, index) in macros">
+        <ResultCardRow :titleType="index" :proteins="phase.protein" :fats="phase.fat" :carbs="phase.carb"></ResultCardRow>
+        </template>
 
-        
+        <!-- <br>
+
         <div class="overflow-x-auto relative shadow-md sm:rounded-lg">
             <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                 <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
@@ -51,7 +58,7 @@ export default {
                     </tr>                    
                 </tbody>
             </table>
-        </div>
+        </div> -->
 
     </section>
 </template>

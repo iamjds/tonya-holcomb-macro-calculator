@@ -11,18 +11,28 @@ export default class Calculations {
         this.initializeCalculations();
     }
 
-    initializeCalculations() {
+    async initializeCalculations() {
         // step #1 - Basal Metabolic State
-        const bmr = this.calculatBMR();
+        const bmr = await this.calculatBMR();
 
         // step #2 - Total Daily Energy Expenditure
-        this.tdee = this.getTDEE(bmr);
+        this.tdee = await this.getTDEE(bmr);
 
         // step #3 - Calculate Macros
-        const macros = this.getAllMacros();
+        const macros = await this.getAllMacros();
+
+        // gather user details
+        const _data = this.calculationData;
+        const userDetails = {
+            first: _data.firstName.value,
+            last: _data.lastName.value,
+            email: _data.email.value
+        }
 
         // display results
-        this.emitter.emit("finish-calculations", {'results': macros});
+        if(macros){
+            this.emitter.emit("finish-calculations", {'results': macros, 'demo': userDetails});
+        }
     }
 
     convertWeightPoundsToKilograms(lb) {
@@ -265,62 +275,68 @@ export default class Calculations {
         return macroResults;
     }
 
-    calculatBMR() {
-        let bmr = 0.0;
+    async calculatBMR() {
+        return new Promise((resolve, reject) => {
+            let bmr = 0.0;
 
-        const weightInKilograms = this.calculationData.weight.value * 0.45359237;
-        const heightFeetInInches = this.calculationData.heightInFeet.value * 12;
-        const totalHeightInInches = heightFeetInInches + this.calculationData.heightInInches.value;
-        const heightInCentimeters = totalHeightInInches * 2.54;
+            const weightInKilograms = this.calculationData.weight.value * 0.45359237;
+            const heightFeetInInches = this.calculationData.heightInFeet.value * 12;
+            const totalHeightInInches = heightFeetInInches + this.calculationData.heightInInches.value;
+            const heightInCentimeters = totalHeightInInches * 2.54;
 
-        const gender = this.calculationData.gender.options[this.calculationData.gender.value.id].toLowerCase();
+            const gender = this.calculationData.gender.options[this.calculationData.gender.value.id].toLowerCase();
 
-        if(gender == 'female') {
-            bmr = 655 + (9.6 * weightInKilograms) + (1.8 * heightInCentimeters) - (4.7 * this.calculationData.age.value);
-        }
-
-        if(gender == 'male') {
-            bmr = 66 + (13.7 * weightInKilograms) + (5 * heightInCentimeters) - (6.8 * this.calculationData.age.value);
-        }
-
-        return bmr.toFixed(6);
-    }
-
-    getTDEE(bmr) {
-        const tdeeMultiplier = this.getTDEEFormulaPerActivityLevel();
-        return (bmr * tdeeMultiplier).toFixed(6);
-    }
-
-    getAllMacros() {
-        let monthlyPhases = {};
-        const phaseCount = this.getPhaseCountFromDataInputs();
-        const gender = this.calculationData.gender.value.id;
-        const stageOfLife = this.calculationData.stageOfLife.value;
-
-        if(phaseCount == 1) {
-            // Male
-            if(gender == 0) {
-                monthlyPhases['male'] = this.calculateMaleMacros();
+            if(gender == 'female') {
+                bmr = 655 + (9.6 * weightInKilograms) + (1.8 * heightInCentimeters) - (4.7 * this.calculationData.age.value);
             }
 
-            // Female
-            if(gender == 1){
-                if([2,3,4,5,6,7,8].includes(stageOfLife)) {
-                    monthlyPhases['general'] = this.calculateGeneralMacros();
-                } 
-                if([9,10].includes(stageOfLife)) {
-                    monthlyPhases['meno'] = this.calculateMenopausalMacros();
+            if(gender == 'male') {
+                bmr = 66 + (13.7 * weightInKilograms) + (5 * heightInCentimeters) - (6.8 * this.calculationData.age.value);
+            }
+
+            resolve(bmr.toFixed(6));
+        })
+    }
+
+    async getTDEE(bmr) {
+        return new Promise((resolve,reject) => {
+            const tdeeMultiplier = this.getTDEEFormulaPerActivityLevel();
+            resolve((bmr * tdeeMultiplier).toFixed(6));
+        });
+    }
+
+    async getAllMacros() {
+        return new Promise((response, reject) => {
+            let monthlyPhases = {};
+            const phaseCount = this.getPhaseCountFromDataInputs();
+            const gender = this.calculationData.gender.value.id;
+            const stageOfLife = this.calculationData.stageOfLife.value;
+
+            if(phaseCount == 1) {
+                // Male
+                if(gender == 0) {
+                    monthlyPhases['male'] = this.calculateMaleMacros();
+                }
+
+                // Female
+                if(gender == 1){
+                    if([2,3,4,5,6,7,8].includes(stageOfLife)) {
+                        monthlyPhases['general'] = this.calculateGeneralMacros();
+                    } 
+                    if([9,10].includes(stageOfLife)) {
+                        monthlyPhases['meno'] = this.calculateMenopausalMacros();
+                    }
                 }
             }
-        }
 
-        if(phaseCount > 1) {
-            for (let index = 1; index < (phaseCount+1); index++) {
-                monthlyPhases['phase' + index] = this.getMacrosForPhase(index);            
+            if(phaseCount > 1) {
+                for (let index = 1; index < (phaseCount+1); index++) {
+                    monthlyPhases['phase' + index] = this.getMacrosForPhase(index);            
+                }
+                monthlyPhases['general'] = this.calculateGeneralMacros();
             }
-            monthlyPhases['general'] = this.calculateGeneralMacros();
-        }
 
-        return monthlyPhases;
+            response(monthlyPhases);
+        })
     }
 }
