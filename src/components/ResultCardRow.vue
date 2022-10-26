@@ -42,7 +42,7 @@ export default {
                 <h5 class="p-3 bg-[#612472] text-white text-lg uppercase rounded-t-lg">Proteins</h5>
 
                 <div class="justify-center items-center p-6">
-                    <p class="text-3xl">191g</p>
+                    <p class="text-3xl">{{proteins}}</p>
                 </div>
             </div>
 
@@ -50,7 +50,7 @@ export default {
                 <h5 class="p-3 bg-[#612472] text-white text-lg uppercase rounded-t-lg">Fats</h5>
 
                 <div class="justify-center items-center p-6">
-                    <p class="text-3xl">106g</p>
+                    <p class="text-3xl">{{fats}}</p>
                 </div>
             </div>
 
@@ -58,7 +58,7 @@ export default {
                 <h5 class="p-3 bg-[#612472] text-white text-lg uppercase rounded-t-lg">Carbs</h5>
 
                 <div class="justify-center items-center p-6">
-                    <p class="text-3xl">167g</p>
+                    <p class="text-3xl">{{carbs}}</p>
                 </div>
             </div>            
         </div>
