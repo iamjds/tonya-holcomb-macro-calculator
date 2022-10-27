@@ -27,3 +27,9 @@ export default {
         <label :for="fields[fieldKey].name">{{field.label}}</label>
     </div>
 </template>
+
+<style scoped>
+    [type='radio']:checked {
+        background-color: #9b59b6;
+    }
+</style>

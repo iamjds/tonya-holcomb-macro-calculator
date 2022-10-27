@@ -23,7 +23,7 @@
 }
 
 #macro-calculator-app {
-    transform: translateY(25%);
+    /* transform: translateY(25%); */
     height: 500px;
 }
 

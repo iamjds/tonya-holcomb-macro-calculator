@@ -330,10 +330,11 @@ export default class Calculations {
             }
 
             if(phaseCount > 1) {
+                monthlyPhases['general'] = this.calculateGeneralMacros();
+                
                 for (let index = 1; index < (phaseCount+1); index++) {
                     monthlyPhases['phase' + index] = this.getMacrosForPhase(index);            
-                }
-                monthlyPhases['general'] = this.calculateGeneralMacros();
+                }                
             }
 
             response(monthlyPhases);

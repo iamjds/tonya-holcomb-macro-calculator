@@ -33,7 +33,7 @@ export default {
 
       // send email if user added it to the form
       if(evt.demo.email != '') {
-        // this.sendEmail(evt.demo);
+        // this.sendEmail(evt.demo, evt.results);
       }
 
       setTimeout(() => {
