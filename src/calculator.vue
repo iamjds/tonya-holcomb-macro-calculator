@@ -33,7 +33,7 @@ export default {
 
       // send email if user added it to the form
       if(evt.demo.email != '') {
-        // this.sendEmail(evt.demo, evt.results);
+        this.sendEmail(evt.demo, evt.results);
       }
 
       setTimeout(() => {
@@ -50,10 +50,14 @@ export default {
       const publicApiKey = 'sTGOoT4rrQxHXl2rS';
 
       let emailMessage = 'Here are your personal macro results:<br>';
-      emailMessage += `<p>${results.protein}</p>`;
-      emailMessage += `<p>${results.fat}</p>`;
-      emailMessage += `<p>${results.card}</p>`;
 
+      for (var r in results){
+        emailMessage += `<p><strong>--- ${r.charAt(0).toUpperCase() + r.slice(1)} ---</strong></p>`;
+        emailMessage += `<p>Proteins: ${results[r].protein}</p>`;
+        emailMessage += `<p>Fats: ${results[r].fat}</p>`;
+        emailMessage += `<p>Carbs: ${results[r].carbs}</p><br>`;  
+      }
+      
       const templateParams = {
           to_name: userDetails.first,
           from_name: 'Tonya Holcomb',
