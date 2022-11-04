@@ -48,22 +48,22 @@ export default class Calculations {
     }
 
     getTDEEFormulaPerActivityLevel() {
-        const activityLevelSelectedID = this.calculationData.activityLevel.value.id;
+        const activityLevelSelectedID = parseInt(this.calculationData.activityLevel.value);
 
-        if(activityLevelSelectedID == 0) return 1.2;
-        if(activityLevelSelectedID == 1) return 1.375;
-        if(activityLevelSelectedID == 2) return 1.55;
-        if(activityLevelSelectedID == 3) return 1.725;
-        if(activityLevelSelectedID == 4) return 1.9;
+        if(activityLevelSelectedID === 1) return 1.2;
+        if(activityLevelSelectedID === 2) return 1.375;
+        if(activityLevelSelectedID === 3) return 1.55;
+        if(activityLevelSelectedID === 4) return 1.725;
+        if(activityLevelSelectedID === 5) return 1.9;
     }
 
     getPhaseCountFromDataInputs() {
         let phases = 1;
-        const genderSelected = this.calculationData.gender.options[this.calculationData.gender.value.id].toLowerCase();
-        const stageOfLifeSelected = this.calculationData.stageOfLife.value;
+        const genderSelected = this.calculationData.gender.options[this.calculationData.gender.value].toLowerCase();
+        const stageOfLifeSelected = parseInt(this.calculationData.stageOfLife.value);
 
         if(genderSelected == 'female'){
-            if(stageOfLifeSelected == 1) { // Menstruating
+            if(stageOfLifeSelected === 1) { // Menstruating
                 phases = 3;
             }            
         }
@@ -72,7 +72,7 @@ export default class Calculations {
     }
 
     calculateMaleMacros() {
-        const selectedGoal = this.calculationData.goals.value.id;
+        const selectedGoal = parseInt(this.calculationData.goals.value);
         let multiplier = 1;
         let caloriesToConsumePerDay = this.tdee;
 
@@ -80,13 +80,13 @@ export default class Calculations {
          * STEP #1
          */
         // Release Weight
-        if(selectedGoal == 0){ 
+        if(selectedGoal == 2){ 
             multiplier = 0.85;
             caloriesToConsumePerDay = this.tdee * multiplier;
         }
 
         // Gain Weight
-        if(selectedGoal == 2){
+        if(selectedGoal == 3){
             multiplier = 1.15;
             caloriesToConsumePerDay = this.tdee * multiplier;
         }
@@ -113,7 +113,7 @@ export default class Calculations {
     }
 
     calculateMenopausalMacros() {
-        const selectedGoal = this.calculationData.goals.value.id;
+        const selectedGoal = parseInt(this.calculationData.goals.value);
         let multiplier = 1;
         let caloriesToConsumePerDay = this.tdee;
 
@@ -121,13 +121,13 @@ export default class Calculations {
          * STEP #1
          */
         // Release Weight
-        if(selectedGoal == 0){ 
+        if(selectedGoal === 2){ 
             multiplier = 0.85;
             caloriesToConsumePerDay = this.tdee * multiplier;
         }
 
         // Gain Weight
-        if(selectedGoal == 2){
+        if(selectedGoal === 3){
             multiplier = 1.15;
             caloriesToConsumePerDay = this.tdee * multiplier;
         }
@@ -154,28 +154,28 @@ export default class Calculations {
     }
 
     calculationMenstruationPhaseMacros(phase, workingObj) {
-        const selectedGoal = this.calculationData.goals.value.id;
+        const selectedGoal = parseInt(this.calculationData.goals.value);
         let caloriesToConsumePerDay = this.tdee;
 
         /**
          * STEP #1
          */
-        // Release Weight
-        if(selectedGoal == 0){             
-            if(phase == 1) caloriesToConsumePerDay = parseFloat(((this.tdee * 30 * 1.1 * .17) / 5 * .84).toFixed(6));
-            if(phase == 2) caloriesToConsumePerDay = parseFloat(((this.tdee * 30 * .4 * .7) / 12 * .85).toFixed(6));
-            if(phase == 3) caloriesToConsumePerDay = parseFloat(((this.tdee * 30 * .432 * 1.2) / 13 * .85).toFixed(6));
-        }
-
         // Maintain Weight
-        if(selectedGoal == 1){ 
+        if(selectedGoal === 1){ 
             if(phase == 1) caloriesToConsumePerDay = parseFloat(((this.tdee * 30 * 1.1 * .17) / 5).toFixed(6));
             if(phase == 2) caloriesToConsumePerDay = parseFloat(((this.tdee * 30 * .4 * .7) / 12).toFixed(6));
             if(phase == 3) caloriesToConsumePerDay = parseFloat(((this.tdee * 30 * .43 * 1.2) / 13).toFixed(6));
         }
 
+        // Release Weight
+        if(selectedGoal === 2){             
+            if(phase == 1) caloriesToConsumePerDay = parseFloat(((this.tdee * 30 * 1.1 * .17) / 5 * .84).toFixed(6));
+            if(phase == 2) caloriesToConsumePerDay = parseFloat(((this.tdee * 30 * .4 * .7) / 12 * .85).toFixed(6));
+            if(phase == 3) caloriesToConsumePerDay = parseFloat(((this.tdee * 30 * .432 * 1.2) / 13 * .85).toFixed(6));
+        }        
+
         // Gain Weight
-        if(selectedGoal == 2){
+        if(selectedGoal === 3){
             if(phase == 1) caloriesToConsumePerDay = parseFloat(((this.tdee * 30 * 1.1 * .17) / 5 * 1.15).toFixed(6));
             if(phase == 2) caloriesToConsumePerDay = parseFloat(((this.tdee * 30 * .4 * .7) / 12 * 1.15).toFixed(6));
             if(phase == 3) caloriesToConsumePerDay = parseFloat(((this.tdee * 30 * .43 * 1.2) / 13 * 1.15).toFixed(6));
@@ -208,7 +208,7 @@ export default class Calculations {
     }
 
     calculateGeneralMacros() {
-        const selectedGoal = this.calculationData.goals.value.id;
+        const selectedGoal = parseInt(this.calculationData.goals.value);
         let multiplier = 1;
         let caloriesToConsumePerDay = this.tdee;
 
@@ -216,13 +216,13 @@ export default class Calculations {
          * STEP #1
          */
         // Release Weight
-        if(selectedGoal == 0){ 
+        if(selectedGoal === 2){ 
             multiplier = 0.85;
             caloriesToConsumePerDay = this.tdee * multiplier;
         }
 
         // Gain Weight
-        if(selectedGoal == 2){
+        if(selectedGoal === 3){
             multiplier = 1.15;
             caloriesToConsumePerDay = this.tdee * multiplier;
         }
@@ -284,7 +284,7 @@ export default class Calculations {
             const totalHeightInInches = heightFeetInInches + this.calculationData.heightInInches.value;
             const heightInCentimeters = totalHeightInInches * 2.54;
 
-            const gender = this.calculationData.gender.options[this.calculationData.gender.value.id].toLowerCase();
+            const gender = this.calculationData.gender.options[this.calculationData.gender.value].toLowerCase();
 
             if(gender == 'female') {
                 bmr = 655 + (9.6 * weightInKilograms) + (1.8 * heightInCentimeters) - (4.7 * this.calculationData.age.value);
@@ -309,23 +309,23 @@ export default class Calculations {
         return new Promise((response, reject) => {
             let monthlyPhases = {};
             const phaseCount = this.getPhaseCountFromDataInputs();
-            const gender = this.calculationData.gender.value.id;
-            const stageOfLife = this.calculationData.stageOfLife.value;
+            const gender = parseInt(this.calculationData.gender.value);
+            const stageOfLife = parseInt(this.calculationData.stageOfLife.value);
 
-            if(phaseCount == 1) {
-                // Male
-                if(gender == 0) {
-                    monthlyPhases['male'] = this.calculateMaleMacros();
-                }
-
+            if(phaseCount == 1) {                
                 // Female
-                if(gender == 1){
+                if(gender === 1){
                     if([2,3,4,5,6,7,8].includes(stageOfLife)) {
                         monthlyPhases['general'] = this.calculateGeneralMacros();
                     } 
                     if([9,10].includes(stageOfLife)) {
                         monthlyPhases['meno'] = this.calculateMenopausalMacros();
                     }
+                }
+
+                // Male
+                if(gender === 2) {
+                    monthlyPhases['male'] = this.calculateMaleMacros();
                 }
             }
 

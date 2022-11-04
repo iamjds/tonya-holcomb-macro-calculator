@@ -15,16 +15,16 @@ export default {
 </script>
 
 <template>
-    <div v-for="(field, index) in fields[fieldKey].options" class="radio-field mt-2 mb-4 flex">
+    <div v-for="(field, key) in fields[fieldKey].options" class="radio-field mt-2 mb-4 flex">
         <input   
-            v-if="field.value != 0"     
+            v-if="key != 0"     
             :name="fields[fieldKey].name"
             class="input border-none mt-1 mr-2"
             type="radio"
-            :value="field.value"
+            :value="key"
             v-model="fields[fieldKey].value"
         />
-        <label :for="fields[fieldKey].name">{{field.label}}</label>
+        <label :for="fields[fieldKey].name">{{field}}</label>
     </div>
 </template>
 

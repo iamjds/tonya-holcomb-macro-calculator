@@ -15,7 +15,7 @@ export default {
                 largeTitle = 'Your Cyclical Macros';
             }            
 
-            if(this.titleType === 'general'){
+            if(this.titleType === 'general' || this.titleType === 'male'){
                 largeTitle = 'Your Bioindividual Macros';
             }
 
@@ -94,5 +94,9 @@ export default {
     margin: -45px auto 20px;
     display: table;
     padding: 0 10px;
+}
+
+.section-content .row .card .text-white {
+    color: #fff !important;
 }
 </style>

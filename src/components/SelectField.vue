@@ -15,10 +15,11 @@ export default {
     methods: {
         onSelectChange(evt, fieldKey) {
             if(fieldKey == 'activityLevel'){
-                let activityLevelSelection = evt.currentTarget.selectedOptions[0].innerText;
-                let activityLevelSelectionIndex = this.fields[fieldKey].options.findIndex(o => o == activityLevelSelection);
+                const options = dataFields.activityLevel.options;                
+                const activityLevelSelection = evt.currentTarget.selectedOptions[0].innerText;
+                const activityLevelSelectionIndex = parseInt(Object.keys(options).find(k => options[k] == activityLevelSelection));
 
-                this.optionsNote = this.fields[fieldKey].optionsDescription[activityLevelSelectionIndex];
+                this.optionsNote = this.fields[fieldKey].optionsDescription[activityLevelSelectionIndex-1];
             }
         } 
     }
@@ -31,10 +32,9 @@ export default {
     
 
     <select @change="onSelectChange($event, fieldKey)" v-model="fields[fieldKey].value" class="block mt-2 mb-4 w-full border-none rounded">
-        <option v-if="fields[fieldKey].placeholder != null" value="0" selected>{{fields[fieldKey].placeholder}}</option>
-        <option v-if="fields[fieldKey].placeholder == undefined" value="0" selected>-- choose {{fields[fieldKey].label}} --</option>
+        <option v-if="fields[fieldKey].placeholder != undefined" value="0" selected>{{fields[fieldKey].placeholder}}</option>
         <option 
-        v-for="(option, id) in fields[fieldKey].options" 
-        :value="{id}">{{option}}</option>
+        v-for="(option, key) in fields[fieldKey].options" 
+        :value="key">{{option}}</option>
     </select>
 </template> 

@@ -22,9 +22,8 @@
     --body-font: "Montserrat-Medium", Arial, sans-serif;
 }
 
-#macro-calculator-app {
-    /* transform: translateY(25%); */
-    height: 500px;
+#macro-calculator-app {    
+    min-height: 500px;
 }
 
 h1, h2, h3, a[data-button], button {
@@ -33,4 +32,10 @@ h1, h2, h3, a[data-button], button {
 
 p, label, input, a {
     font-family: var(--body-font);
+}
+
+.form-control {
+    border: none;
+    background-color: transparent;
+    padding: 0;
 }

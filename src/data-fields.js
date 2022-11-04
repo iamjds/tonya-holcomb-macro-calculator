@@ -56,25 +56,25 @@ const fields = {
         fieldId: 8,
         label: 'Gender',
         name: 'gender',
-        value: 0,
+        value: 1,
         fieldType: 'select',
-        options: [
-            'Male',
-            'Female'
-        ],
+        options: {
+            1: 'Female',
+            2: 'Male'
+        },
     },
     activityLevel: {
         fieldId: 9,
         label: 'Activity Level',
         name: 'activity-level',
-        value: 0,
-        options: [
-            'Sedentary',
-            'Lightly Active',
-            'Moderately Active',
-            'Very Active',
-            'Extremely Active'
-        ],
+        value: 1,
+        options: {
+            1: 'Sedentary',
+            2: 'Lightly Active',
+            3: 'Moderately Active',
+            4: 'Very Active',
+            5: 'Extremely Active'
+        },
         optionsDescription: [
             "You\'re seated most of the day and may or may not work out lightly throughout the week.",
             "Your daily life, habits or occupation keep you on your feet and moving or lightly walking most of the day. <strong>And<\/strong> you work out lightly 1-3 days per week. Examples of light exercise include 30 minutes of weight lifting or 60 minutes of yoga, pilates, etc.",
@@ -89,36 +89,35 @@ const fields = {
         fieldId: 10,
         label: 'Is your goal to release, maintain or gain weight? Please select the "I\'m pregnant" option if that applies to you.',
         name: 'goals',
-        value: 0,
-        options: [
-            'Release Weight',
-            'Maintain Weight',
-            'Gain Weight',
-            'I\'m Pregnant'
-        ],
+        value: 1,
+        options: {
+            1: 'Maintain Weight',
+            2: 'Release Weight',            
+            3: 'Gain Weight',
+            4: 'I\'m Pregnant'
+        },
         note: "*if you\'re breastfeeding a newborn to one-year-old, your body is burning approximately an additional 500 calories a day, therefore we don\'t recommend that you select \"Release\" and instead choose \"Maintain\" to balance your blood sugar, heal your hormones and harmonize your body.",
-        fieldType: 'select',
-        placeholder: '-- choose Goal --'
+        fieldType: 'select'
     },
     stageOfLife: {
         fieldId: 11,
-        label: 'Select the option that best applies to you',     
+        label: 'Select the option that best applies to you.',     
         name: 'stage-of-life',
         value: 0,
-        options: [
-            {value: 0, label: ''},
-            {value: 1, label: 'I am menstruating, my periods are regular and I am not on oral birth control.'},
-            {value: 2, label: 'I am menstruating, my periods are regular and I am on oral birth control.'},
-            {value: 3, label: 'I am menstruating and my periods are irregular. (You may select this option whether or not you’re on birth control).'},
-            {value: 4, label: 'I am currently pregnant and in my first trimester'},
-            {value: 5, label: 'I am currently pregnant and in my second trimester.'},
-            {value: 6, label: 'I am currently pregnant and in my third trimester.'},
-            {value: 7, label: 'I am breastfeeding and have gotten my period and it’s regular.'},
-            {value: 8, label: 'I am breastfeeding and have gotten my period and it’s irregular.'},
-            {value: 9, label: 'I am in menopause.'},
-            {value: 10, label: 'I am post-menopausal.'},
-            {value: 11, label: 'None of these apply to me.'}
-        ],
+        options: {
+            0: '',
+            1: 'I am menstruating, my periods are regular and I am not on oral birth control.',
+            2: 'I am menstruating, my periods are regular and I am on oral birth control.',
+            3: 'I am menstruating and my periods are irregular. (You may select this option whether or not you’re on birth control).',
+            4: 'I am currently pregnant and in my first trimester',
+            5: 'I am currently pregnant and in my second trimester.',
+            6: 'I am currently pregnant and in my third trimester.',
+            7: 'I am breastfeeding and have gotten my period and it’s regular.',
+            8: 'I am breastfeeding and have gotten my period and it’s irregular.',
+            9: 'I am in menopause.',
+            10: 'I am post-menopausal.',
+            11: 'None of these apply to me.'
+        },
         fieldType: 'radio',
         placeholder: 'Select the option that best applies to you.'
     }
