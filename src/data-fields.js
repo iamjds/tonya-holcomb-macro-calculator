@@ -5,7 +5,8 @@ const fields = {
         name: 'first-name',
         value: '',
         fieldType: 'text',
-        width: 'half'
+        width: 'half',
+        required: false
     },
     lastName: {
         fieldId: 2,
@@ -13,28 +14,32 @@ const fields = {
         name: 'last-name',
         value: '',
         fieldType: 'text',
-        width: 'half'
+        width: 'half',
+        required: false
     },
     email: {
         fieldId: 3,
         label: 'Email Address',
         name: 'email',
         value: '',
-        fieldType: 'text'
+        fieldType: 'email',
+        required: true
     },
     age: {
         fieldId: 4,
         label: 'Age',
         name: 'age',
         value: 0,
-        fieldType: 'number'
+        fieldType: 'number',
+        required: false
     },
     weight: {
         fieldId: 5,
         label: 'Weight',
         name: 'weight',
         value: 0,
-        fieldType: 'number'
+        fieldType: 'number',
+        required: true
     },
     heightInFeet: {
         fieldId: 6,
@@ -42,7 +47,8 @@ const fields = {
         name: 'height-feet',
         value: 0,
         fieldType: 'number',
-        width: 'half'
+        width: 'half',
+        required: true
     },
     heightInInches: {
         fieldId: 7,
@@ -50,7 +56,8 @@ const fields = {
         name: 'height-inches',
         value: 0,
         fieldType: 'number',
-        width: 'half'
+        width: 'half',
+        required: true
     },
     gender: {
         fieldId: 8,
@@ -62,6 +69,7 @@ const fields = {
             1: 'Female',
             2: 'Male'
         },
+        required: false
     },
     activityLevel: {
         fieldId: 9,
@@ -82,8 +90,9 @@ const fields = {
             "Your daily life, habits or occupation keep you on your feet and moving. <strong>And<\/strong> you workout for 1-2 hours, 6-7 days per week. <strong>Or<\/strong> your daily life, habits, or occupation are very active and demanding. For example: construction work, frequent heavy lifting or strenuous, sweat-inducing labor.",
             "Your daily life, habits or occupation are very active and demanding. For example: construction work, frequent heavy lifting, strenuous labor. <strong>And<\/strong> you workout 1-2 hours, 6-7 days per week."
         ],
-        note: '*if in doubt, choose an activity level below what you think you do.',
-        fieldType: 'select'
+        note: '*If in doubt, choose an activity level below what you think you do. Click on an option to see a more detailed description.',
+        fieldType: 'select',
+        required: false
     },
     goals: {
         fieldId: 10,
@@ -97,7 +106,8 @@ const fields = {
             4: 'I\'m Pregnant'
         },
         note: "*if you\'re breastfeeding a newborn to one-year-old, your body is burning approximately an additional 500 calories a day, therefore we don\'t recommend that you select \"Release\" and instead choose \"Maintain\" to balance your blood sugar, heal your hormones and harmonize your body.",
-        fieldType: 'select'
+        fieldType: 'select',
+        required: false
     },
     stageOfLife: {
         fieldId: 11,
@@ -119,7 +129,8 @@ const fields = {
             11: 'None of these apply to me.'
         },
         fieldType: 'radio',
-        placeholder: 'Select the option that best applies to you.'
+        placeholder: 'Select the option that best applies to you.',
+        required: false
     }
 }
 

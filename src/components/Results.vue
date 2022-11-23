@@ -17,9 +17,17 @@ export default {
 
 <template>
     <section id="results-data-container" class="mt-6 mx-auto max-w-xl">
-        <template v-for="(phase, index) in macros">
-        <ResultCardRow :titleType="index" :proteins="phase.protein" :fats="phase.fat" :carbs="phase.carbs"></ResultCardRow>
+        <template v-for="(phase) in macros">
+        <ResultCardRow :title="phase.phaseName" :proteins="phase.protein" :fats="phase.fat" :carbs="phase.carbs"></ResultCardRow>
         </template>        
         <br>
     </section>
 </template>
+
+<style>
+/* offset Kajabi .row styles */
+#results-data-container .row {
+    margin-left: 0;
+    margin-right: 0;
+}
+</style>

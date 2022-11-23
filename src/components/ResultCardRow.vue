@@ -2,7 +2,7 @@
 export default {
     name: 'ResultCardRow',
     props: {
-        titleType: String,
+        title: String,
         proteins: Number,
         fats: Number,
         carbs: Number
@@ -11,11 +11,11 @@ export default {
         getRowTitle() {
             let largeTitle = '';
 
-            if(this.titleType === 'phase1'){
+            if(this.title === 'menstrual'){
                 largeTitle = 'Your Cyclical Macros';
             }            
 
-            if(this.titleType === 'general' || this.titleType === 'male'){
+            if(this.title === 'general' || this.title === 'male' || this.title === 'menopausal'){
                 largeTitle = 'Your Bioindividual Macros';
             }
 
@@ -25,15 +25,15 @@ export default {
         getPhaseTitle() {
             let phaseTitle = '';
 
-            if(this.titleType === 'phase1'){
+            if(this.title === 'follicular'){
                 phaseTitle = 'Follicular & Ovulation Phase';
             }
 
-            if(this.titleType === 'phase2'){
+            if(this.title === 'luteal'){
                 phaseTitle = 'Luteal Phase';
             }
 
-            if(this.titleType === 'phase3'){
+            if(this.title === 'menstrual'){
                 phaseTitle = 'Menstrual Phase';
             }
 
@@ -46,7 +46,7 @@ export default {
 <template>
     <p class="section-title uppercase font-bold text-2xl text-center mb-7 px-6 text-[#612472]" v-if="getRowTitle != ''">{{getRowTitle}}</p>
 
-    <div class="section-content mb-16" :class="{'no-border': titleType == 'general'}">        
+    <div class="section-content mb-16" :class="{'no-border': title == 'general'}">        
         <p class="mb-6 text-center text-xl font-bold text-[#9b59b6]">{{getPhaseTitle}}</p>
 
         <div class="row flex flex-wrap md:flex-nowrap w-full gap-4">
@@ -54,7 +54,7 @@ export default {
                 <h5 class="p-3 bg-[#612472] text-white text-lg uppercase rounded-t-lg">Proteins</h5>
 
                 <div class="justify-center items-center p-6">
-                    <p class="text-3xl">{{proteins}}</p>
+                    <p class="text-3xl">{{proteins}}g</p>
                 </div>
             </div>
 
@@ -62,7 +62,7 @@ export default {
                 <h5 class="p-3 bg-[#612472] text-white text-lg uppercase rounded-t-lg">Fats</h5>
 
                 <div class="justify-center items-center p-6">
-                    <p class="text-3xl">{{fats}}</p>
+                    <p class="text-3xl">{{fats}}g</p>
                 </div>
             </div>
 
@@ -70,7 +70,7 @@ export default {
                 <h5 class="p-3 bg-[#612472] text-white text-lg uppercase rounded-t-lg">Carbs</h5>
 
                 <div class="justify-center items-center p-6">
-                    <p class="text-3xl">{{carbs}}</p>
+                    <p class="text-3xl">{{carbs}}g</p>
                 </div>
             </div>            
         </div>

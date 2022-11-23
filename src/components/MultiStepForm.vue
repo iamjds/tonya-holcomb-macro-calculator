@@ -70,25 +70,36 @@ export default {
             <div class="flex flex-wrap gap-4" v-if="currentStep === step">               
                 <div v-for="field in fieldKeys" class="relative" :class="{'md:w-60 w-full': fields[field].width == 'half', 'w-full': fields[field].width != 'half'}">
                     <div class="form-control">
-                        <label class="label form-field-label" :class="{'mb-3 block' : step == 2}">{{fields[field].label}}</label>
+                        <label class="label form-field-label font-bold text-[#612472]" :class="{'mb-3 block' : step == 2}">
+                            {{fields[field].label}}
+                            <span class="text-[#612472]" v-if="fields[field].required == true">*</span>
+                        </label>
                         
                         <div class="field-group" :class="{'form-container-max-height rounded' : step == 2}">
                             <input
                                 class="input border-none w-full mx-0 mt-2 mb-4 rounded"
                                 type="text"
                                 v-if="fields[field].fieldType === 'text'"                        
-                                v-model="fields[field].value"
+                                :required="fields[field].required"
                             />
 
-                            <RadioInput v-if="fields[field].fieldType === 'radio'" :fieldKey="field"></RadioInput>
-                            
+                            <input
+                                class="input border-none w-full mx-0 mt-2 mb-4 rounded"
+                                type="email"
+                                v-if="fields[field].fieldType === 'email'"                        
+                                v-model="fields[field].value"
+                                :required="fields[field].required"
+                            />
+
                             <input
                                 class="input border-none w-full mx-0 mt-2 mb-4 rounded"                                
                                 type="number"
                                 v-if="fields[field].fieldType === 'number'"                        
                                 v-model="fields[field].value"
+                                :required="fields[field].required"
                             />
 
+                            <RadioInput v-if="fields[field].fieldType === 'radio'" :fieldKey="field"></RadioInput>                                                        
                             <SelectField v-if="fields[field].fieldType === 'select'" :fieldKey="field"></SelectField>                                                    
                         </div>
                     </div>

@@ -106,6 +106,7 @@ export default class Calculations {
         const carbsCaloriesToGrams = carbsCalorieWorkingFormula / 4;
 
         return {
+            phaseName: 'male',
             protein: Math.round(proteinCaloriesToGrams),
             fat: Math.round(fatCaloriesToGrams),
             carbs: Math.round(carbsCaloriesToGrams)
@@ -147,6 +148,7 @@ export default class Calculations {
         const carbsCaloriesToGrams = carbsCalorieWorkingFormula / 4;
 
         return {
+            phaseName: 'menopausal',
             protein: Math.round(proteinCaloriesToGrams),
             fat: Math.round(fatCaloriesToGrams),
             carbs: Math.round(carbsCaloriesToGrams)
@@ -160,25 +162,25 @@ export default class Calculations {
         /**
          * STEP #1
          */
-        // Maintain Weight
-        if(selectedGoal === 1){ 
-            if(phase == 1) caloriesToConsumePerDay = parseFloat(((this.tdee * 30 * 1.1 * .17) / 5).toFixed(6));
-            if(phase == 2) caloriesToConsumePerDay = parseFloat(((this.tdee * 30 * .4 * .7) / 12).toFixed(6));
-            if(phase == 3) caloriesToConsumePerDay = parseFloat(((this.tdee * 30 * .43 * 1.2) / 13).toFixed(6));
-        }
-
         // Release Weight
         if(selectedGoal === 2){             
-            if(phase == 1) caloriesToConsumePerDay = parseFloat(((this.tdee * 30 * 1.1 * .17) / 5 * .84).toFixed(6));
+            if(phase == 1) caloriesToConsumePerDay = parseFloat(((this.tdee * 30 * 1.1 * .17) / 5 * .84).toFixed(6)); // Menstruating
             if(phase == 2) caloriesToConsumePerDay = parseFloat(((this.tdee * 30 * .4 * .7) / 12 * .85).toFixed(6));
             if(phase == 3) caloriesToConsumePerDay = parseFloat(((this.tdee * 30 * .432 * 1.2) / 13 * .85).toFixed(6));
-        }        
+        } 
+
+        // Maintain Weight
+        if(selectedGoal === 1){ 
+            if(phase == 1) caloriesToConsumePerDay = parseFloat(((this.tdee * 30 * 1.1 * .17) / 5).toFixed(6)); // Menstruating
+            if(phase == 2) caloriesToConsumePerDay = parseFloat(((this.tdee * 30 * .4 * .7) / 12).toFixed(6)); // Follicular/Ovulatory
+            if(phase == 3) caloriesToConsumePerDay = parseFloat(((this.tdee * 30 * .43 * 1.2) / 13).toFixed(6));
+        }               
 
         // Gain Weight
         if(selectedGoal === 3){
             if(phase == 1) caloriesToConsumePerDay = parseFloat(((this.tdee * 30 * 1.1 * .17) / 5 * 1.15).toFixed(6));
             if(phase == 2) caloriesToConsumePerDay = parseFloat(((this.tdee * 30 * .4 * .7) / 12 * 1.15).toFixed(6));
-            if(phase == 3) caloriesToConsumePerDay = parseFloat(((this.tdee * 30 * .43 * 1.2) / 13 * 1.15).toFixed(6));
+            if(phase == 3) caloriesToConsumePerDay = parseFloat(((this.tdee * 30 * .43 * 1.2) / 13 * 1.15).toFixed(6)); // Luteal
         }
 
         /**
@@ -242,6 +244,7 @@ export default class Calculations {
         const carbsCaloriesToGrams = carbsCalorieWorkingFormula / 4;
 
         return {
+            phaseName: 'general',
             protein: Math.round(proteinCaloriesToGrams),
             fat: Math.round(fatCaloriesToGrams),
             carbs: Math.round(carbsCaloriesToGrams)
@@ -249,6 +252,7 @@ export default class Calculations {
     }
 
     getMacrosForPhase(phaseIndex) {
+        let phaseName = '';
         let calculationMultiplierObj = {
             step2: {
                 proteinWorking: 0.32,
@@ -262,15 +266,19 @@ export default class Calculations {
             }
         };
 
+        if(phaseIndex == 1) phaseName = 'menstrual';
+        if(phaseIndex == 2) phaseName = 'follicular';
         if(phaseIndex == 3) {
             calculationMultiplierObj.step2 = {
                 proteinWorking: 0.32,
                 fatWorking: 0.3,
                 carbsWorking: 0.38
             }
-        }
+            phaseName = 'luteal';
+        }        
 
-        const macroResults = this.calculationMenstruationPhaseMacros(phaseIndex, calculationMultiplierObj);
+        let macroResults = this.calculationMenstruationPhaseMacros(phaseIndex, calculationMultiplierObj);
+        macroResults.phaseName = phaseName;
 
         return macroResults;
     }
@@ -334,7 +342,7 @@ export default class Calculations {
                 
                 for (let index = 1; index < (phaseCount+1); index++) {
                     monthlyPhases['phase' + index] = this.getMacrosForPhase(index);            
-                }                
+                } 
             }
 
             response(monthlyPhases);
