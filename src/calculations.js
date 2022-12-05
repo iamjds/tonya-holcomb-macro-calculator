@@ -1,4 +1,5 @@
 import dataFields from './data-fields';
+import config from "../calculator_config.json";
 
 export default class Calculations {
     calculationData = {};
@@ -36,13 +37,13 @@ export default class Calculations {
     }
 
     convertWeightPoundsToKilograms(lb) {
-        return lb * 0.45359237;
+        return lb * config.poundsToKilograms;
     }
 
     convertHeightToCentimeters(feet, inches) {
         const feetInInches = feet * 12;
         const totalInches = feetInInches + inches;
-        const totalCentimeters = totalInches * 2.54;
+        const totalCentimeters = totalInches * config.inchesToCentimeters;
 
         return totalCentimeters;
     }
@@ -50,11 +51,11 @@ export default class Calculations {
     getTDEEFormulaPerActivityLevel() {
         const activityLevelSelectedID = parseInt(this.calculationData.activityLevel.value);
 
-        if(activityLevelSelectedID === 1) return 1.2;
-        if(activityLevelSelectedID === 2) return 1.375;
-        if(activityLevelSelectedID === 3) return 1.55;
-        if(activityLevelSelectedID === 4) return 1.725;
-        if(activityLevelSelectedID === 5) return 1.9;
+        if(activityLevelSelectedID === 1) return config.tdeeSedentaryActiveMultiplier;
+        if(activityLevelSelectedID === 2) return config.tdeeLightlyActiveMultiplier;
+        if(activityLevelSelectedID === 3) return config.tdeeModeratelyActiveMultiplier;
+        if(activityLevelSelectedID === 4) return config.tdeeVeryActiveMultiplier;
+        if(activityLevelSelectedID === 5) return config.tdeeExtremelyActiveMultiplier;
     }
 
     getPhaseCountFromDataInputs() {
@@ -81,29 +82,29 @@ export default class Calculations {
          */
         // Release Weight
         if(selectedGoal == 2){ 
-            multiplier = 0.85;
+            multiplier = config.maleMacrosCaloriesPerDayReleaseMultiplier;
             caloriesToConsumePerDay = this.tdee * multiplier;
         }
 
         // Gain Weight
         if(selectedGoal == 3){
-            multiplier = 1.15;
+            multiplier = config.maleMacrosCaloriesPerDayGainMultiplier;
             caloriesToConsumePerDay = this.tdee * multiplier;
         }
 
         /**
          * STEP #2
          */
-        const proteinCaloriesWorkingFormula = caloriesToConsumePerDay * 0.35;
-        const fatCaloriesWorkingFormula = caloriesToConsumePerDay * 0.35;
-        const carbsCalorieWorkingFormula = caloriesToConsumePerDay * 0.3;
+        const proteinCaloriesWorkingFormula = caloriesToConsumePerDay * config.maleMacrosProteinCaloriesWorkingFormula;
+        const fatCaloriesWorkingFormula = caloriesToConsumePerDay * config.maleMacrosFatCaloriesWorkingFormula;
+        const carbsCalorieWorkingFormula = caloriesToConsumePerDay * config.maleMacrosCarbsCaloriesWorkingFormula;
 
         /**
          * STEP #3
          */
-        const proteinCaloriesToGrams = proteinCaloriesWorkingFormula / 4;
-        const fatCaloriesToGrams = fatCaloriesWorkingFormula / 9;
-        const carbsCaloriesToGrams = carbsCalorieWorkingFormula / 4;
+        const proteinCaloriesToGrams = proteinCaloriesWorkingFormula / config.maleMacrosProteinCaloriesToGrams;
+        const fatCaloriesToGrams = fatCaloriesWorkingFormula / config.maleMacrosFatCaloriesToGrams;
+        const carbsCaloriesToGrams = carbsCalorieWorkingFormula / config.maleMacrosCarbsCaloriesToGrams;
 
         return {
             phaseName: 'male',
@@ -123,29 +124,29 @@ export default class Calculations {
          */
         // Release Weight
         if(selectedGoal === 2){ 
-            multiplier = 0.85;
+            multiplier = config.menopausalMacrosCaloriesPerDayReleaseMultiplier;
             caloriesToConsumePerDay = this.tdee * multiplier;
         }
 
         // Gain Weight
         if(selectedGoal === 3){
-            multiplier = 1.15;
+            multiplier = config.menopausalMacrosCaloriesPerDayGainMultiplier;
             caloriesToConsumePerDay = this.tdee * multiplier;
         }
 
         /**
          * STEP #2
          */
-        const proteinCaloriesWorkingFormula = caloriesToConsumePerDay * 0.23;
-        const fatCaloriesWorkingFormula = caloriesToConsumePerDay * 0.4;
-        const carbsCalorieWorkingFormula = caloriesToConsumePerDay * 0.37;
+        const proteinCaloriesWorkingFormula = caloriesToConsumePerDay * config.menopausalMacrosProteinCaloriesWorkingFormula;
+        const fatCaloriesWorkingFormula = caloriesToConsumePerDay * config.menopausalMacrosFatCaloriesWorkingFormula;
+        const carbsCalorieWorkingFormula = caloriesToConsumePerDay * config.menopausalMacrosCarbsCaloriesWorkingFormula;
 
         /**
          * STEP #3
          */
-        const proteinCaloriesToGrams = proteinCaloriesWorkingFormula / 4;
-        const fatCaloriesToGrams = fatCaloriesWorkingFormula / 9;
-        const carbsCaloriesToGrams = carbsCalorieWorkingFormula / 4;
+        const proteinCaloriesToGrams = proteinCaloriesWorkingFormula / config.menopausalMacrosProteinCaloriesToGrams;
+        const fatCaloriesToGrams = fatCaloriesWorkingFormula / config.menopausalMacrosFatCaloriesToGrams;
+        const carbsCaloriesToGrams = carbsCalorieWorkingFormula / config.menopausalMacrosCarbsCaloriesToGrams;
 
         return {
             phaseName: 'menopausal',
@@ -164,23 +165,23 @@ export default class Calculations {
          */
         // Release Weight
         if(selectedGoal === 2){             
-            if(phase == 1) caloriesToConsumePerDay = parseFloat(((this.tdee * 30 * 1.1 * .17) / 5 * .84).toFixed(6)); // Menstruating
-            if(phase == 2) caloriesToConsumePerDay = parseFloat(((this.tdee * 30 * .4 * .7) / 12 * .85).toFixed(6));
-            if(phase == 3) caloriesToConsumePerDay = parseFloat(((this.tdee * 30 * .432 * 1.2) / 13 * .85).toFixed(6));
+            if(phase == 1) caloriesToConsumePerDay = parseFloat((this.tdee * eval(config.menstruatingPhase1ReleaseCaloriesPerDayMultiplier)).toFixed(config.amountOfDecimalPlaces)); // Menstruating
+            if(phase == 2) caloriesToConsumePerDay = parseFloat((this.tdee * eval(config.menstruatingPhase2ReleaseCaloriesPerDayMultiplier)).toFixed(config.amountOfDecimalPlaces));
+            if(phase == 3) caloriesToConsumePerDay = parseFloat((this.tdee * eval(config.menstruatingPhase3ReleaseCaloriesPerDayMultiplier)).toFixed(config.amountOfDecimalPlaces));
         } 
 
         // Maintain Weight
         if(selectedGoal === 1){ 
-            if(phase == 1) caloriesToConsumePerDay = parseFloat(((this.tdee * 30 * 1.1 * .17) / 5).toFixed(6)); // Menstruating
-            if(phase == 2) caloriesToConsumePerDay = parseFloat(((this.tdee * 30 * .4 * .7) / 12).toFixed(6)); // Follicular/Ovulatory
-            if(phase == 3) caloriesToConsumePerDay = parseFloat(((this.tdee * 30 * .43 * 1.2) / 13).toFixed(6));
+            if(phase == 1) caloriesToConsumePerDay = parseFloat((this.tdee * eval(config.menstruatingPhase1MaintainCaloriesPerDayMultiplier)).toFixed(config.amountOfDecimalPlaces)); // Menstruating
+            if(phase == 2) caloriesToConsumePerDay = parseFloat((this.tdee * eval(config.menstruatingPhase2MaintainCaloriesPerDayMultiplier)).toFixed(config.amountOfDecimalPlaces)); // Follicular/Ovulatory
+            if(phase == 3) caloriesToConsumePerDay = parseFloat((this.tdee * eval(config.menstruatingPhase3MaintainCaloriesPerDayMultiplier)).toFixed(config.amountOfDecimalPlaces));
         }               
 
         // Gain Weight
         if(selectedGoal === 3){
-            if(phase == 1) caloriesToConsumePerDay = parseFloat(((this.tdee * 30 * 1.1 * .17) / 5 * 1.15).toFixed(6));
-            if(phase == 2) caloriesToConsumePerDay = parseFloat(((this.tdee * 30 * .4 * .7) / 12 * 1.15).toFixed(6));
-            if(phase == 3) caloriesToConsumePerDay = parseFloat(((this.tdee * 30 * .43 * 1.2) / 13 * 1.15).toFixed(6)); // Luteal
+            if(phase == 1) caloriesToConsumePerDay = parseFloat((this.tdee * eval(config.menstruatingPhase1GainCaloriesPerDayMultiplier)).toFixed(config.amountOfDecimalPlaces));
+            if(phase == 2) caloriesToConsumePerDay = parseFloat((this.tdee * eval(config.menstruatingPhase2GainCaloriesPerDayMultiplier)).toFixed(config.amountOfDecimalPlaces));
+            if(phase == 3) caloriesToConsumePerDay = parseFloat((this.tdee * eval(config.menstruatingPhase3GainCaloriesPerDayMultiplier)).toFixed(config.amountOfDecimalPlaces)); // Luteal
         }
 
         /**
@@ -302,14 +303,14 @@ export default class Calculations {
                 bmr = 66 + (13.7 * weightInKilograms) + (5 * heightInCentimeters) - (6.8 * this.calculationData.age.value);
             }
 
-            resolve(bmr.toFixed(6));
+            resolve(bmr.toFixed(config.amountOfDecimalPlaces));
         })
     }
 
     async getTDEE(bmr) {
         return new Promise((resolve,reject) => {
             const tdeeMultiplier = this.getTDEEFormulaPerActivityLevel();
-            resolve((bmr * tdeeMultiplier).toFixed(6));
+            resolve((bmr * tdeeMultiplier).toFixed(config.amountOfDecimalPlaces));
         });
     }
 
