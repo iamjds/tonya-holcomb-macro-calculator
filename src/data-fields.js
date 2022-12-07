@@ -23,7 +23,8 @@ const fields = {
         name: 'email',
         value: '',
         fieldType: 'email',
-        required: true
+        required: true,
+        errorMessage: 'please add your email'
     },
     age: {
         fieldId: 4,
@@ -39,7 +40,8 @@ const fields = {
         name: 'weight',
         value: 0,
         fieldType: 'number',
-        required: true
+        required: true,
+        errorMessage: 'please add your weight'
     },
     heightInFeet: {
         fieldId: 6,
@@ -48,7 +50,8 @@ const fields = {
         value: 0,
         fieldType: 'number',
         width: 'half',
-        required: true
+        required: true,
+        errorMessage: 'please add your height in feet'
     },
     heightInInches: {
         fieldId: 7,
@@ -57,7 +60,7 @@ const fields = {
         value: 0,
         fieldType: 'number',
         width: 'half',
-        required: true
+        required: false
     },
     gender: {
         fieldId: 8,

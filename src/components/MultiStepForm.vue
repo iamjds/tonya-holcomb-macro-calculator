@@ -29,8 +29,35 @@ export default {
         },
 
         nextStep() {
+            let errorCount = 0;
+
+            // validation
+            for(const fieldKey of this.steps[this.currentStep]) {
+                if(this.fields[fieldKey].required == true) {
+
+                    // remove previous error
+                    if('hasError' in this.fields[fieldKey]) {
+                        delete this.fields[fieldKey].hasError;
+                    }
+
+                    if(this.isDefaultValue(this.fields[fieldKey]) == true) {
+                        this.fields[fieldKey].hasError = true;
+                        errorCount++;
+                    }
+                }
+            }
+
+            if(errorCount > 0) return;
             if(this.isLastStep) return;
             this.currentStep++;
+        },
+
+        isDefaultValue(field) {            
+            if(field.fieldType == 'number' && field.value === 0) return true;
+            if(field.fieldType == 'text' && field.value === '') return true;
+            if(field.fieldType == 'email' && field.value === '') return true;
+
+            return false;
         },
         
         handleSubmit(e) {
@@ -72,8 +99,9 @@ export default {
                     <div class="form-control">
                         <label class="label form-field-label font-bold text-[#612472]" :class="{'mb-3 block' : step == 2}">
                             {{fields[field].label}}
-                            <span class="text-[#612472]" v-if="fields[field].required == true">*</span>
+                            <span class="text-[#612472]" v-if="fields[field].required == true">*</span>                            
                         </label>
+                        <span v-if="fields[field].hasError" style="display:block;color:red">{{fields[field].errorMessage}}</span>
                         
                         <div class="field-group" :class="{'form-container-max-height rounded' : step == 2}">
                             <input
@@ -114,7 +142,7 @@ export default {
               v-if="!isFirstStep">Previous</button>
             <button 
               class="bg-[#9b59b6] py-2 px-4 text-white rounded ml-auto" 
-              @click.prevent="nextStep"
+              @click.prevent="nextStep()"
               v-if="!isLastStep">Next</button>
             <button
               v-if="isLastStep"
