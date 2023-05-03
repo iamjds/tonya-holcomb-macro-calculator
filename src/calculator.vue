@@ -45,24 +45,33 @@ export default {
 
   methods: {
     sendEmail(userDetails, results) {
-      const serviceId = 'service_7ezv9hs';
-      const emailTemplateId = 'template_eg1cag3';
-      const publicApiKey = 'sTGOoT4rrQxHXl2rS';
+      const serviceId = 'service_2at777d';
+      const allPhasesTemplateId = 'template_7e734ln';
+      const bioindividualOnlyTemplateId = 'template_kwja0np';
+      const publicApiKey = 'yHRZ2b5OSe-xi4x9n';
 
-      let emailMessage = 'Here are your personal macro results:<br>';
+      let emailMessage = {};
+      let emailTemplateId = 'template_00000';
+      let resultsIndex = 0;
 
-      for (var r in results){
-        emailMessage += `<p><strong>--- ${r.charAt(0).toUpperCase() + r.slice(1)} ---</strong></p>`;
-        emailMessage += `<p>Proteins: ${results[r].protein}</p>`;
-        emailMessage += `<p>Fats: ${results[r].fat}</p>`;
-        emailMessage += `<p>Carbs: ${results[r].carbs}</p><br>`;  
+      if(results.hasOwnProperty('male')) emailTemplateId = bioindividualOnlyTemplateId;
+      if(Object.keys(results).length == 1 && !results.hasOwnProperty('male')) emailTemplateId = bioindividualOnlyTemplateId;
+      if(Object.keys(results).length == 4) emailTemplateId = allPhasesTemplateId;      
+
+      for (var r in results){        
+        emailMessage[`proteins${resultsIndex}`] = results[r].protein + 'g';
+        emailMessage[`fats${resultsIndex}`] = results[r].fat + 'g';
+        emailMessage[`carbs${resultsIndex}`] = results[r].carbs + 'g';
+
+        resultsIndex++;
       }
       
       const templateParams = {
-          to_name: userDetails.first,
-          from_name: 'Tonya Holcomb',
-          message: emailMessage,
-          reply_to: 'jakeschaap+replyto@gmail.com'
+        first_name: userDetails.first,
+        email_to: userDetails.email,
+        from_name: 'Tonya Holcomb',
+        message: emailMessage,
+        reply_to: 'cyclicalcalculator@gmail.com'
       };
 
       emailjs.send(serviceId, emailTemplateId, templateParams, publicApiKey)

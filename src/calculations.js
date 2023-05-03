@@ -1,5 +1,5 @@
 import dataFields from './data-fields';
-import config from "../calculator_config.json";
+// import config from "../calculator_config.json";
 
 export default class Calculations {
     calculationData = {};
@@ -9,6 +9,7 @@ export default class Calculations {
     constructor(emitter) {
         this.emitter = emitter;
         this.calculationData = dataFields;
+        this.config = window.calculator_settings // this global variable only exists in Kajabi
         this.initializeCalculations();
     }
 
@@ -37,13 +38,13 @@ export default class Calculations {
     }
 
     convertWeightPoundsToKilograms(lb) {
-        return lb * config.poundsToKilograms;
+        return lb * this.config.poundsToKilograms;
     }
 
     convertHeightToCentimeters(feet, inches) {
         const feetInInches = feet * 12;
         const totalInches = feetInInches + inches;
-        const totalCentimeters = totalInches * config.inchesToCentimeters;
+        const totalCentimeters = totalInches * this.config.inchesToCentimeters;
 
         return totalCentimeters;
     }
@@ -51,11 +52,11 @@ export default class Calculations {
     getTDEEFormulaPerActivityLevel() {
         const activityLevelSelectedID = parseInt(this.calculationData.activityLevel.value);
 
-        if(activityLevelSelectedID === 1) return config.tdeeSedentaryActiveMultiplier;
-        if(activityLevelSelectedID === 2) return config.tdeeLightlyActiveMultiplier;
-        if(activityLevelSelectedID === 3) return config.tdeeModeratelyActiveMultiplier;
-        if(activityLevelSelectedID === 4) return config.tdeeVeryActiveMultiplier;
-        if(activityLevelSelectedID === 5) return config.tdeeExtremelyActiveMultiplier;
+        if(activityLevelSelectedID === 1) return this.config.tdeeSedentaryActiveMultiplier;
+        if(activityLevelSelectedID === 2) return this.config.tdeeLightlyActiveMultiplier;
+        if(activityLevelSelectedID === 3) return this.config.tdeeModeratelyActiveMultiplier;
+        if(activityLevelSelectedID === 4) return this.config.tdeeVeryActiveMultiplier;
+        if(activityLevelSelectedID === 5) return this.config.tdeeExtremelyActiveMultiplier;
     }
 
     getPhaseCountFromDataInputs() {
@@ -82,29 +83,29 @@ export default class Calculations {
          */
         // Release Weight
         if(selectedGoal == 2){ 
-            multiplier = config.maleMacrosCaloriesPerDayReleaseMultiplier;
+            multiplier = this.config.maleMacrosCaloriesPerDayReleaseMultiplier;
             caloriesToConsumePerDay = this.tdee * multiplier;
         }
 
         // Gain Weight
         if(selectedGoal == 3){
-            multiplier = config.maleMacrosCaloriesPerDayGainMultiplier;
+            multiplier = this.config.maleMacrosCaloriesPerDayGainMultiplier;
             caloriesToConsumePerDay = this.tdee * multiplier;
         }
 
         /**
          * STEP #2
          */
-        const proteinCaloriesWorkingFormula = caloriesToConsumePerDay * config.maleMacrosProteinCaloriesWorkingFormula;
-        const fatCaloriesWorkingFormula = caloriesToConsumePerDay * config.maleMacrosFatCaloriesWorkingFormula;
-        const carbsCalorieWorkingFormula = caloriesToConsumePerDay * config.maleMacrosCarbsCaloriesWorkingFormula;
+        const proteinCaloriesWorkingFormula = caloriesToConsumePerDay * this.config.maleMacrosProteinCaloriesWorkingFormula;
+        const fatCaloriesWorkingFormula = caloriesToConsumePerDay * this.config.maleMacrosFatCaloriesWorkingFormula;
+        const carbsCalorieWorkingFormula = caloriesToConsumePerDay * this.config.maleMacrosCarbsCaloriesWorkingFormula;
 
         /**
          * STEP #3
          */
-        const proteinCaloriesToGrams = proteinCaloriesWorkingFormula / config.maleMacrosProteinCaloriesToGrams;
-        const fatCaloriesToGrams = fatCaloriesWorkingFormula / config.maleMacrosFatCaloriesToGrams;
-        const carbsCaloriesToGrams = carbsCalorieWorkingFormula / config.maleMacrosCarbsCaloriesToGrams;
+        const proteinCaloriesToGrams = proteinCaloriesWorkingFormula / this.config.maleMacrosProteinCaloriesToGrams;
+        const fatCaloriesToGrams = fatCaloriesWorkingFormula / this.config.maleMacrosFatCaloriesToGrams;
+        const carbsCaloriesToGrams = carbsCalorieWorkingFormula / this.config.maleMacrosCarbsCaloriesToGrams;
 
         return {
             phaseName: 'male',
@@ -124,29 +125,29 @@ export default class Calculations {
          */
         // Release Weight
         if(selectedGoal === 2){ 
-            multiplier = config.menopausalMacrosCaloriesPerDayReleaseMultiplier;
+            multiplier = this.config.menopausalMacrosCaloriesPerDayReleaseMultiplier;
             caloriesToConsumePerDay = this.tdee * multiplier;
         }
 
         // Gain Weight
         if(selectedGoal === 3){
-            multiplier = config.menopausalMacrosCaloriesPerDayGainMultiplier;
+            multiplier = this.config.menopausalMacrosCaloriesPerDayGainMultiplier;
             caloriesToConsumePerDay = this.tdee * multiplier;
         }
 
         /**
          * STEP #2
          */
-        const proteinCaloriesWorkingFormula = caloriesToConsumePerDay * config.menopausalMacrosProteinCaloriesWorkingFormula;
-        const fatCaloriesWorkingFormula = caloriesToConsumePerDay * config.menopausalMacrosFatCaloriesWorkingFormula;
-        const carbsCalorieWorkingFormula = caloriesToConsumePerDay * config.menopausalMacrosCarbsCaloriesWorkingFormula;
+        const proteinCaloriesWorkingFormula = caloriesToConsumePerDay * this.config.menopausalMacrosProteinCaloriesWorkingFormula;
+        const fatCaloriesWorkingFormula = caloriesToConsumePerDay * this.config.menopausalMacrosFatCaloriesWorkingFormula;
+        const carbsCalorieWorkingFormula = caloriesToConsumePerDay * this.config.menopausalMacrosCarbsCaloriesWorkingFormula;
 
         /**
          * STEP #3
          */
-        const proteinCaloriesToGrams = proteinCaloriesWorkingFormula / config.menopausalMacrosProteinCaloriesToGrams;
-        const fatCaloriesToGrams = fatCaloriesWorkingFormula / config.menopausalMacrosFatCaloriesToGrams;
-        const carbsCaloriesToGrams = carbsCalorieWorkingFormula / config.menopausalMacrosCarbsCaloriesToGrams;
+        const proteinCaloriesToGrams = proteinCaloriesWorkingFormula / this.config.menopausalMacrosProteinCaloriesToGrams;
+        const fatCaloriesToGrams = fatCaloriesWorkingFormula / this.config.menopausalMacrosFatCaloriesToGrams;
+        const carbsCaloriesToGrams = carbsCalorieWorkingFormula / this.config.menopausalMacrosCarbsCaloriesToGrams;
 
         return {
             phaseName: 'menopausal',
@@ -165,23 +166,23 @@ export default class Calculations {
          */
         // Release Weight
         if(selectedGoal === 2){             
-            if(phase == 1) caloriesToConsumePerDay = parseFloat((this.tdee * eval(config.menstruatingPhase1ReleaseCaloriesPerDayMultiplier)).toFixed(config.amountOfDecimalPlaces)); // Menstruating
-            if(phase == 2) caloriesToConsumePerDay = parseFloat((this.tdee * eval(config.menstruatingPhase2ReleaseCaloriesPerDayMultiplier)).toFixed(config.amountOfDecimalPlaces)); // Follicular/Ovulatory
-            if(phase == 3) caloriesToConsumePerDay = parseFloat((this.tdee * eval(config.menstruatingPhase3ReleaseCaloriesPerDayMultiplier)).toFixed(config.amountOfDecimalPlaces)); // Luteal
+            if(phase == 1) caloriesToConsumePerDay = parseFloat((this.tdee * eval(this.config.menstruatingPhase1ReleaseCaloriesPerDayMultiplier)).toFixed(this.config.amountOfDecimalPlaces)); // Menstruating
+            if(phase == 2) caloriesToConsumePerDay = parseFloat((this.tdee * eval(this.config.menstruatingPhase2ReleaseCaloriesPerDayMultiplier)).toFixed(this.config.amountOfDecimalPlaces)); // Follicular/Ovulatory
+            if(phase == 3) caloriesToConsumePerDay = parseFloat((this.tdee * eval(this.config.menstruatingPhase3ReleaseCaloriesPerDayMultiplier)).toFixed(this.config.amountOfDecimalPlaces)); // Luteal
         } 
 
         // Maintain Weight
         if(selectedGoal === 1){ 
-            if(phase == 1) caloriesToConsumePerDay = parseFloat((this.tdee * eval(config.menstruatingPhase1MaintainCaloriesPerDayMultiplier)).toFixed(config.amountOfDecimalPlaces)); // Menstruating
-            if(phase == 2) caloriesToConsumePerDay = parseFloat((this.tdee * eval(config.menstruatingPhase2MaintainCaloriesPerDayMultiplier)).toFixed(config.amountOfDecimalPlaces)); // Follicular/Ovulatory
-            if(phase == 3) caloriesToConsumePerDay = parseFloat((this.tdee * eval(config.menstruatingPhase3MaintainCaloriesPerDayMultiplier)).toFixed(config.amountOfDecimalPlaces)); // Luteal
+            if(phase == 1) caloriesToConsumePerDay = parseFloat((this.tdee * eval(this.config.menstruatingPhase1MaintainCaloriesPerDayMultiplier)).toFixed(this.config.amountOfDecimalPlaces)); // Menstruating
+            if(phase == 2) caloriesToConsumePerDay = parseFloat((this.tdee * eval(this.config.menstruatingPhase2MaintainCaloriesPerDayMultiplier)).toFixed(this.config.amountOfDecimalPlaces)); // Follicular/Ovulatory
+            if(phase == 3) caloriesToConsumePerDay = parseFloat((this.tdee * eval(this.config.menstruatingPhase3MaintainCaloriesPerDayMultiplier)).toFixed(this.config.amountOfDecimalPlaces)); // Luteal
         }               
 
         // Gain Weight
         if(selectedGoal === 3){
-            if(phase == 1) caloriesToConsumePerDay = parseFloat((this.tdee * eval(config.menstruatingPhase1GainCaloriesPerDayMultiplier)).toFixed(config.amountOfDecimalPlaces)); // Menstruating
-            if(phase == 2) caloriesToConsumePerDay = parseFloat((this.tdee * eval(config.menstruatingPhase2GainCaloriesPerDayMultiplier)).toFixed(config.amountOfDecimalPlaces)); // Follicular/Ovulatory
-            if(phase == 3) caloriesToConsumePerDay = parseFloat((this.tdee * eval(config.menstruatingPhase3GainCaloriesPerDayMultiplier)).toFixed(config.amountOfDecimalPlaces)); // Luteal
+            if(phase == 1) caloriesToConsumePerDay = parseFloat((this.tdee * eval(this.config.menstruatingPhase1GainCaloriesPerDayMultiplier)).toFixed(this.config.amountOfDecimalPlaces)); // Menstruating
+            if(phase == 2) caloriesToConsumePerDay = parseFloat((this.tdee * eval(this.config.menstruatingPhase2GainCaloriesPerDayMultiplier)).toFixed(this.config.amountOfDecimalPlaces)); // Follicular/Ovulatory
+            if(phase == 3) caloriesToConsumePerDay = parseFloat((this.tdee * eval(this.config.menstruatingPhase3GainCaloriesPerDayMultiplier)).toFixed(this.config.amountOfDecimalPlaces)); // Luteal
         }
 
         /**
@@ -222,29 +223,29 @@ export default class Calculations {
          */
         // Release Weight
         if(selectedGoal === 2){ 
-            multiplier = config.generalMacrosCaloriesPerDayReleaseMultiplier;
+            multiplier = this.config.generalMacrosCaloriesPerDayReleaseMultiplier;
             caloriesToConsumePerDay = this.tdee * multiplier;
         }
 
         // Gain Weight
         if(selectedGoal === 3){
-            multiplier = config.generalMacrosCaloriesPerDayGainMultiplier;
+            multiplier = this.config.generalMacrosCaloriesPerDayGainMultiplier;
             caloriesToConsumePerDay = this.tdee * multiplier;
         }
 
         /**
          * STEP #2
          */
-        const proteinCaloriesWorkingFormula = caloriesToConsumePerDay * config.generalMacrosProteinCaloriesWorkingFormula;
-        const fatCaloriesWorkingFormula = caloriesToConsumePerDay * config.generalMacrosFatCaloriesWorkingFormula;
-        const carbsCalorieWorkingFormula = caloriesToConsumePerDay * config.generalMacrosCarbsCaloriesWorkingFormula;
+        const proteinCaloriesWorkingFormula = caloriesToConsumePerDay * this.config.generalMacrosProteinCaloriesWorkingFormula;
+        const fatCaloriesWorkingFormula = caloriesToConsumePerDay * this.config.generalMacrosFatCaloriesWorkingFormula;
+        const carbsCalorieWorkingFormula = caloriesToConsumePerDay * this.config.generalMacrosCarbsCaloriesWorkingFormula;
 
         /**
          * STEP #3
          */
-        const proteinCaloriesToGrams = proteinCaloriesWorkingFormula / config.generalMacrosProteinCaloriesToGrams;
-        const fatCaloriesToGrams = fatCaloriesWorkingFormula / config.generalMacrosFatCaloriesToGrams;
-        const carbsCaloriesToGrams = carbsCalorieWorkingFormula / config.generalMacrosCarbsCaloriesToGrams;
+        const proteinCaloriesToGrams = proteinCaloriesWorkingFormula / this.config.generalMacrosProteinCaloriesToGrams;
+        const fatCaloriesToGrams = fatCaloriesWorkingFormula / this.config.generalMacrosFatCaloriesToGrams;
+        const carbsCaloriesToGrams = carbsCalorieWorkingFormula / this.config.generalMacrosCarbsCaloriesToGrams;
 
         return {
             phaseName: 'general',
@@ -258,14 +259,14 @@ export default class Calculations {
         let phaseName = '';
         let calculationMultiplierObj = {
             step2: {
-                proteinWorking: config.menstruatingMacrosProteinCaloriesDefaultWorkingFormula,
-                fatWorking: config.menstruatingMacrosFatCaloriesDefaultWorkingFormula,
-                carbsWorking: config.menstruatingMacrosCarbsCaloriesDefaultWorkingFormula
+                proteinWorking: this.config.menstruatingMacrosProteinCaloriesDefaultWorkingFormula,
+                fatWorking: this.config.menstruatingMacrosFatCaloriesDefaultWorkingFormula,
+                carbsWorking: this.config.menstruatingMacrosCarbsCaloriesDefaultWorkingFormula
             },
             step3: {
-                proteinToGrams: config.menstruatingMacrosProteinCaloriesToGrams,
-                fatsToGrams: config.menstruatingMacrosFatCaloriesToGrams,
-                carbsToGrams: config.menstruatingMacrosCarbsCaloriesToGrams
+                proteinToGrams: this.config.menstruatingMacrosProteinCaloriesToGrams,
+                fatsToGrams: this.config.menstruatingMacrosFatCaloriesToGrams,
+                carbsToGrams: this.config.menstruatingMacrosCarbsCaloriesToGrams
             }
         };
 
@@ -273,9 +274,9 @@ export default class Calculations {
         if(phaseIndex == 2) phaseName = 'follicular';
         if(phaseIndex == 3) {
             calculationMultiplierObj.step2 = {
-                proteinWorking: config.menstruatingMacrosProteinCaloriesLutealWorkingFormula,
-                fatWorking: config.menstruatingMacrosFatCaloriesLutealWorkingFormula,
-                carbsWorking: config.menstruatingMacrosCarbsCaloriesLutealWorkingFormula
+                proteinWorking: this.config.menstruatingMacrosProteinCaloriesLutealWorkingFormula,
+                fatWorking: this.config.menstruatingMacrosFatCaloriesLutealWorkingFormula,
+                carbsWorking: this.config.menstruatingMacrosCarbsCaloriesLutealWorkingFormula
             }
             phaseName = 'luteal';
         }        
@@ -290,35 +291,35 @@ export default class Calculations {
         return new Promise((resolve, reject) => {
             let bmr = 0.0;
 
-            const weightInKilograms = this.calculationData.weight.value * config.poundsToKilograms;
+            const weightInKilograms = this.calculationData.weight.value * this.config.poundsToKilograms;
             const heightFeetInInches = this.calculationData.heightInFeet.value * 12;
             const totalHeightInInches = heightFeetInInches + this.calculationData.heightInInches.value;
-            const heightInCentimeters = totalHeightInInches * config.inchesToCentimeters;
+            const heightInCentimeters = totalHeightInInches * this.config.inchesToCentimeters;
 
             const gender = this.calculationData.gender.options[this.calculationData.gender.value].toLowerCase();
 
             if(gender == 'female') {
-                bmr = config.bmrFemaleFormulaStaticNumber;
-                bmr += (config.bmrFemaleWeightInKilosMultiplier * weightInKilograms);
-                bmr += (config.bmrFemaleHeightInCentimetersMultiplier * heightInCentimeters);
-                bmr -= (config.bmrFemaleAgeInYearsMultiplier * this.calculationData.age.value);
+                bmr = this.config.bmrFemaleFormulaStaticNumber;
+                bmr += (this.config.bmrFemaleWeightInKilosMultiplier * weightInKilograms);
+                bmr += (this.config.bmrFemaleHeightInCentimetersMultiplier * heightInCentimeters);
+                bmr -= (this.config.bmrFemaleAgeInYearsMultiplier * this.calculationData.age.value);
             }
 
             if(gender == 'male') {
-                bmr = config.bmrMaleFormulaStaticNumber;
-                bmr += (config.bmrMaleWeightInKilosMultiplier * weightInKilograms);
-                bmr += (config.bmrMaleHeightInCentimetersMultiplier * heightInCentimeters);
-                bmr -= (config.bmrMaleAgeInYearsMultiplier * this.calculationData.age.value);
+                bmr = this.config.bmrMaleFormulaStaticNumber;
+                bmr += (this.config.bmrMaleWeightInKilosMultiplier * weightInKilograms);
+                bmr += (this.config.bmrMaleHeightInCentimetersMultiplier * heightInCentimeters);
+                bmr -= (this.config.bmrMaleAgeInYearsMultiplier * this.calculationData.age.value);
             }
 
-            resolve(bmr.toFixed(config.amountOfDecimalPlaces));
+            resolve(bmr.toFixed(this.config.amountOfDecimalPlaces));
         })
     }
 
     async getTDEE(bmr) {
         return new Promise((resolve,reject) => {
             const tdeeMultiplier = this.getTDEEFormulaPerActivityLevel();
-            resolve((bmr * tdeeMultiplier).toFixed(config.amountOfDecimalPlaces));
+            resolve((bmr * tdeeMultiplier).toFixed(this.config.amountOfDecimalPlaces));
         });
     }
 
@@ -332,7 +333,7 @@ export default class Calculations {
             if(phaseCount == 1) {                
                 // Female
                 if(gender === 1){
-                    if([2,3,4,5,6,7,8].includes(stageOfLife)) {
+                    if([2,3,4,5,6,7,8,11].includes(stageOfLife)) {
                         monthlyPhases['general'] = this.calculateGeneralMacros();
                     } 
                     if([9,10].includes(stageOfLife)) {
