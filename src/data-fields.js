@@ -134,6 +134,18 @@ const fields = {
         fieldType: 'radio',
         placeholder: 'Select the option that best applies to you.',
         required: false
+    },
+    customizedMacros: {
+        fieldId: 12,
+        label: 'Do you have customized macro percentages from a HTMA report or protocol?',
+        name: 'customized-macros',
+        value: 1,
+        options: {
+            1: 'no',
+            2: 'yes'
+        },
+        fieldType: 'radio',
+        required: false
     }
 }
 

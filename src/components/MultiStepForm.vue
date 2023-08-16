@@ -1,12 +1,14 @@
 <script>
 import dataFields from '../data-fields';
 import RadioInput from './RadioInput.vue';
+import MacroRadioInput from './MacroRadioInput.vue';
 import SelectField from './SelectField.vue';
 
 export default {
     name: 'MultiStepForm',
     components: {
         RadioInput,
+        MacroRadioInput,
         SelectField
     },
     data() {
@@ -18,6 +20,7 @@ export default {
                 ['weight', 'heightInFeet', 'heightInInches', 'gender'],
                 ['activityLevel', 'goals'],
                 ['stageOfLife'],
+                ['customizedMacros'],
                 ['firstName','lastName','age','email']
             ]            
         }
@@ -127,8 +130,9 @@ export default {
                                 :required="fields[field].required"
                             />
 
-                            <RadioInput v-if="fields[field].fieldType === 'radio'" :fieldKey="field"></RadioInput>                                                        
-                            <SelectField v-if="fields[field].fieldType === 'select'" :fieldKey="field"></SelectField>                                                    
+                            <RadioInput v-if="fields[field].fieldType === 'radio' && fields[field].fieldId !== 12" :fieldKey="field"></RadioInput>
+                            <MacroRadioInput v-if="fields[field].fieldId === 12" :fieldKey="field"></MacroRadioInput>
+                            <SelectField v-if="fields[field].fieldType === 'select'" :fieldKey="field"></SelectField>
                         </div>
                     </div>
                 </div>

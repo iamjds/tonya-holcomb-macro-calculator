@@ -1,0 +1,126 @@
+<script>
+import dataFields from '../data-fields';
+
+export default {
+    name: 'MacroRadioInput',
+    props: {
+        fieldKey: String
+    },
+    data() {
+        return {
+            fields: dataFields,
+            showMacroFields: false,
+            totalMacroPercentage: 0
+        }
+    },
+    methods: {
+        onValueChange(event, fieldKey) {
+            const radioValue = parseInt(event.target.value);
+            
+            if(radioValue === 1) this.showMacroFields = false;
+            if(radioValue === 2) this.showMacroFields = true;                
+        },
+        onMacroValueChange($event) {
+            const macroValue = parseInt(event.target.value);
+
+            this.totalMacroPercentage = macroValue;
+        }
+    }
+}
+</script>
+
+<template>
+    <div class="macro-radios-container">
+        <div v-for="(field, key) in fields[fieldKey].options" class="radio-field mt-2 mb-4 flex">
+            <input   
+                v-if="key != 0"     
+                :name="fields[fieldKey].name"
+                class="input border-none mt-1 mr-2"
+                type="radio"
+                :value="key"
+                v-model="fields[fieldKey].value"
+                @input="onValueChange($event, fieldKey)"
+            />
+            <label :for="fields[fieldKey].name">{{field}}</label>        
+        </div>
+        
+        <div v-if="showMacroFields" class="macro-fields">
+            <div class="input-container">
+                <fieldset>
+                    <label for="protein-macro">Protein</label>
+                    <input @input="onMacroValueChange($event)" type="number" name="protein-macro" id="protein-macro">%
+                </fieldset>
+                <fieldset>
+                    <label for="fat-macro">Fat</label>
+                    <input @input="onMacroValueChange($event)" type="number" name="fat-macro" id="fat-macro">%
+                </fieldset>
+                <fieldset>
+                    <label for="carb-macro">Carbohydrates</label>
+                    <input @input="onMacroValueChange($event)" type="number" name="carb-macro" id="carb-macro">%
+                </fieldset>
+            </div>
+            <div class="macro-percentage-total">
+                <p>{{totalMacroPercentage}}%</p>
+            </div>
+        </div>
+    </div>
+</template>
+
+<style scoped>
+    [type='radio']:checked {
+        background-color: #9b59b6;
+    }
+    .macro-radios-container {
+        height: 215px;
+    }
+    .macro-radios-container .macro-fields {
+        display: flex;
+    }
+    .macro-radios-container .macro-fields .input-container {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+        height: 100%;
+    }
+    .macro-radios-container .macro-fields .input-container label {
+        display: inline-block;
+        width: 150px;
+    }
+    .macro-radios-container .macro-fields .input-container input[type="number"]{
+        width: 80px;
+    }
+    .macro-radios-container .macro-percentage-total {
+        width: 100px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .macro-radios-container .macro-percentage-total p {
+        position: relative;
+        font-size: 24px;
+        width: 60px;
+        text-align: center;
+    }
+    .macro-radios-container .macro-percentage-total p:before {
+        content: '';
+        position: absolute;
+        top: -30px;
+        width: 15px;
+        height: 30px;
+        background-color: transparent;
+        left: 5px;
+        border-top: 1px solid #000;
+        border-right: 1px solid #000;
+    }
+    .macro-radios-container .macro-percentage-total p:after {
+        content: '';
+        position: absolute;
+        bottom: -30px;
+        width: 15px;
+        height: 30px;
+        background-color: transparent;
+        left: 5px;
+        border-bottom: 1px solid #000;
+        border-right: 1px solid #000;
+    }
+</style>

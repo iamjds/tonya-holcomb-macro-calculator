@@ -12,6 +12,12 @@ The Macro Calculator is initially meant to be a stand-alone application on it's 
 - TailwindCSS
 
 
+# Kajabi Dependencies
+
+- Theme code `Templates/calculator.liquid`
+- Theme code `Config/preset_calculator.json`
+
+
 # Formulas
 
 [Shared Document](https://docs.google.com/spreadsheets/d/1jFUruOv8dH9oShEGz8CXqNxN5VwAE-VAQMLHoPzO1YY/edit#gid=1966392964)
