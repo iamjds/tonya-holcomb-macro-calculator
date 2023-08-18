@@ -10,7 +10,10 @@ export default {
         return {
             fields: dataFields,
             showMacroFields: false,
-            totalMacroPercentage: 0
+            totalMacroPercentage: 0,
+            proteinValue: 0,
+            fatValue: 0,
+            carbValue: 0
         }
     },
     methods: {
@@ -22,8 +25,35 @@ export default {
         },
         onMacroValueChange($event) {
             const macroValue = parseInt(event.target.value);
+            const p = this.proteinValue;
+            const f = this.fatValue;
+            const c = this.carbValue;
 
-            this.totalMacroPercentage = macroValue;
+            if(p+f+c > 100) {
+                alert('The total percentage of the macros cannot be greater than 100%');
+                $event.preventDefault();
+            } else {
+                this.totalMacroPercentage = macroValue;
+            }
+
+            console.info(this.proteinValue, this.fatValue, this.carbValue);
+        },
+        onMacroKeydown($event) {
+            // Save old value.
+            const input = $event.target;
+            const inputValue = parseInt(input.value);
+
+            if (this.totalMacroPercentage + inputValue > 100)
+            input.setAttribute("data-old", input.value);
+        },
+        onMacroKeyup($event) {
+            const input = $event.target;
+            const inputValue = parseInt(input.value);
+
+            // Check correct, else revert back to old value.
+            if (this.totalMacroPercentage + inputValue > 100){
+                this.totalMacroPercentage = this.proteinValue + this.fatValue + this.carbValue;
+            } else input.value = input.getAttribute("data-old");
         }
     }
 }
@@ -48,15 +78,33 @@ export default {
             <div class="input-container">
                 <fieldset>
                     <label for="protein-macro">Protein</label>
-                    <input @input="onMacroValueChange($event)" type="number" name="protein-macro" id="protein-macro">%
+                    <input 
+                        @keydown="onMacroKeydown($event)"
+                        @keyup="onMacroKeyup($event)"
+                        v-model="proteinValue"
+                        type="number" 
+                        name="protein-macro" 
+                        id="protein-macro">%
                 </fieldset>
                 <fieldset>
                     <label for="fat-macro">Fat</label>
-                    <input @input="onMacroValueChange($event)" type="number" name="fat-macro" id="fat-macro">%
+                    <input 
+                        @keydown="onMacroKeydown($event)"
+                        @keyup="onMacroKeyup($event)"
+                        v-model="fatValue"
+                        type="number" 
+                        name="fat-macro" 
+                        id="fat-macro">%
                 </fieldset>
                 <fieldset>
                     <label for="carb-macro">Carbohydrates</label>
-                    <input @input="onMacroValueChange($event)" type="number" name="carb-macro" id="carb-macro">%
+                    <input 
+                        @keydown="onMacroKeydown($event)"
+                        @keyup="onMacroKeyup($event)"
+                        v-model="carbValue"
+                        type="number" 
+                        name="carb-macro" 
+                        id="carb-macro">%
                 </fieldset>
             </div>
             <div class="macro-percentage-total">
