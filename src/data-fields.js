@@ -146,6 +146,33 @@ const fields = {
         },
         fieldType: 'radio',
         required: false
+    },
+    customizedProtein: {
+        fieldId: 7,
+        label: 'Protein',
+        name: 'customized-protein',
+        value: 0,
+        fieldType: 'number',
+        width: 'half',
+        required: false
+    },
+    customizedFat: {
+        fieldId: 7,
+        label: 'Fat',
+        name: 'customized-fat',
+        value: 0,
+        fieldType: 'number',
+        width: 'half',
+        required: false
+    },
+    customizedCarbs: {
+        fieldId: 7,
+        label: 'Carbohydrates',
+        name: 'customized-carbs',
+        value: 0,
+        fieldType: 'number',
+        width: 'half',
+        required: false
     }
 }
 

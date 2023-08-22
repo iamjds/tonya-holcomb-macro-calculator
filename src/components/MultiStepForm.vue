@@ -17,8 +17,8 @@ export default {
             currentStep: 0,
             formCompleted: false,
             steps: [
-                ['weight', 'heightInFeet', 'heightInInches', 'gender'],
-                ['activityLevel', 'goals'],
+                ['weight','heightInFeet','heightInInches','gender'],
+                ['activityLevel','goals'],
                 ['stageOfLife'],
                 ['customizedMacros'],
                 ['firstName','lastName','age','email']

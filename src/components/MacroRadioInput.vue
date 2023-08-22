@@ -19,9 +19,10 @@ export default {
     methods: {
         onValueChange(event, fieldKey) {
             const radioValue = parseInt(event.target.value);
+            this.fields[fieldKey].value = radioValue;
             
             if(radioValue === 1) this.showMacroFields = false;
-            if(radioValue === 2) this.showMacroFields = true;                
+            if(radioValue === 2) this.showMacroFields = true;
         },
         onMacroValueChange($event) {
             const macroValue = parseInt(event.target.value);
@@ -37,23 +38,13 @@ export default {
             }
 
             console.info(this.proteinValue, this.fatValue, this.carbValue);
-        },
-        onMacroKeydown($event) {
-            // Save old value.
-            const input = $event.target;
-            const inputValue = parseInt(input.value);
-
-            if (this.totalMacroPercentage + inputValue > 100)
-            input.setAttribute("data-old", input.value);
-        },
+        },        
         onMacroKeyup($event) {
-            const input = $event.target;
-            const inputValue = parseInt(input.value);
-
-            // Check correct, else revert back to old value.
-            if (this.totalMacroPercentage + inputValue > 100){
-                this.totalMacroPercentage = this.proteinValue + this.fatValue + this.carbValue;
-            } else input.value = input.getAttribute("data-old");
+            const p = this.fields['customizedProtein'].value
+            const f = this.fields['customizedFat'].value;
+            const c = this.fields['customizedCarbs'].value;
+            
+            this.totalMacroPercentage = (p || 0) + (f || 0) + (c || 0);
         }
     }
 }
@@ -79,9 +70,8 @@ export default {
                 <fieldset>
                     <label for="protein-macro">Protein</label>
                     <input 
-                        @keydown="onMacroKeydown($event)"
                         @keyup="onMacroKeyup($event)"
-                        v-model="proteinValue"
+                        v-model="fields['customizedProtein'].value"
                         type="number" 
                         name="protein-macro" 
                         id="protein-macro">%
@@ -89,9 +79,8 @@ export default {
                 <fieldset>
                     <label for="fat-macro">Fat</label>
                     <input 
-                        @keydown="onMacroKeydown($event)"
                         @keyup="onMacroKeyup($event)"
-                        v-model="fatValue"
+                        v-model="fields['customizedFat'].value"
                         type="number" 
                         name="fat-macro" 
                         id="fat-macro">%
@@ -99,16 +88,15 @@ export default {
                 <fieldset>
                     <label for="carb-macro">Carbohydrates</label>
                     <input 
-                        @keydown="onMacroKeydown($event)"
                         @keyup="onMacroKeyup($event)"
-                        v-model="carbValue"
+                        v-model="fields['customizedCarbs'].value"
                         type="number" 
                         name="carb-macro" 
                         id="carb-macro">%
                 </fieldset>
             </div>
             <div class="macro-percentage-total">
-                <p>{{totalMacroPercentage}}%</p>
+                <p :class="{ 'too-high': totalMacroPercentage > 100 }">{{totalMacroPercentage}}%</p>
             </div>
         </div>
     </div>
@@ -148,6 +136,10 @@ export default {
         font-size: 24px;
         width: 60px;
         text-align: center;
+    }
+    .macro-radios-container .macro-percentage-total p.too-high {
+        color: red;
+        font-weight: bold;
     }
     .macro-radios-container .macro-percentage-total p:before {
         content: '';
