@@ -48,6 +48,21 @@ export default {
                         errorCount++;
                     }
                 }
+
+                // customizedMacros field validation
+                if(this.currentStep === 3){
+                    if(this.fields['customizedMacros'].value === '1'){
+                        delete this.fields['customizedMacros'].hasError;
+                    }
+
+                    if(this.fields['customizedMacros'].value === '2'){
+                        if(this.fields['customizedMacrosTotal'].value < 100 || this.fields['customizedMacrosTotal'].value > 100){
+                            // this.fields['customizedMacros'].hasError = true;
+                            alert('The total percentage of macros should equal exactly 100%')
+                            errorCount++;
+                        }
+                    }
+                }
             }
 
             if(errorCount > 0) return;

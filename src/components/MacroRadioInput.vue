@@ -24,27 +24,29 @@ export default {
             if(radioValue === 1) this.showMacroFields = false;
             if(radioValue === 2) this.showMacroFields = true;
         },
-        onMacroValueChange($event) {
-            const macroValue = parseInt(event.target.value);
-            const p = this.proteinValue;
-            const f = this.fatValue;
-            const c = this.carbValue;
+        // onMacroValueChange($event) {
+        //     const macroValue = parseInt(event.target.value);
+        //     const p = this.proteinValue;
+        //     const f = this.fatValue;
+        //     const c = this.carbValue;
 
-            if(p+f+c > 100) {
-                alert('The total percentage of the macros cannot be greater than 100%');
-                $event.preventDefault();
-            } else {
-                this.totalMacroPercentage = macroValue;
-            }
+        //     if(p+f+c > 100) {
+        //         alert('The total percentage of the macros cannot be greater than 100%');
+        //         $event.preventDefault();
+        //     } else {
+        //         this.totalMacroPercentage = macroValue;
+        //     }
 
-            console.info(this.proteinValue, this.fatValue, this.carbValue);
-        },        
+        //     console.info(this.proteinValue, this.fatValue, this.carbValue);
+        // },        
         onMacroKeyup($event) {
             const p = this.fields['customizedProtein'].value
             const f = this.fields['customizedFat'].value;
             const c = this.fields['customizedCarbs'].value;
             
             this.totalMacroPercentage = (p || 0) + (f || 0) + (c || 0);
+
+            this.fields['customizedMacrosTotal'].value = this.totalMacroPercentage;
         }
     }
 }
@@ -59,13 +61,12 @@ export default {
                 class="input border-none mt-1 mr-2"
                 type="radio"
                 :value="key"
-                v-model="fields[fieldKey].value"
-                @input="onValueChange($event, fieldKey)"
+                v-model="fields[fieldKey].value"                
             />
             <label :for="fields[fieldKey].name">{{field}}</label>        
         </div>
         
-        <div v-if="showMacroFields" class="macro-fields">
+        <div v-if="fields['customizedMacros'].value === '2'" class="macro-fields">
             <div class="input-container">
                 <fieldset>
                     <label for="protein-macro">Protein</label>
@@ -96,7 +97,7 @@ export default {
                 </fieldset>
             </div>
             <div class="macro-percentage-total">
-                <p :class="{ 'too-high': totalMacroPercentage > 100 }">{{totalMacroPercentage}}%</p>
+                <p :class="{ 'too-high': totalMacroPercentage > 100 }">{{fields['customizedMacrosTotal'].value}}%</p>
             </div>
         </div>
     </div>

@@ -148,7 +148,7 @@ const fields = {
         required: false
     },
     customizedProtein: {
-        fieldId: 7,
+        fieldId: 13,
         label: 'Protein',
         name: 'customized-protein',
         value: 0,
@@ -157,7 +157,7 @@ const fields = {
         required: false
     },
     customizedFat: {
-        fieldId: 7,
+        fieldId: 14,
         label: 'Fat',
         name: 'customized-fat',
         value: 0,
@@ -166,12 +166,20 @@ const fields = {
         required: false
     },
     customizedCarbs: {
-        fieldId: 7,
+        fieldId: 15,
         label: 'Carbohydrates',
         name: 'customized-carbs',
         value: 0,
         fieldType: 'number',
         width: 'half',
+        required: false
+    },
+    customizedMacrosTotal: {
+        fieldId: 16,
+        label: '',
+        name: 'customized-macros-total',
+        value: 0,
+        fieldType: 'number',
         required: false
     }
 }

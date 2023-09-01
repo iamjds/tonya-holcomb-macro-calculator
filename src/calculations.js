@@ -1,5 +1,5 @@
 import dataFields from './data-fields';
-// import config from "../calculator_config.json";
+//import config from "../calculator_config.json";
 
 export default class Calculations {
     calculationData = {};
@@ -33,6 +33,7 @@ export default class Calculations {
 
         // display results
         if(macros){
+            console.info('macros', macros);
             this.emitter.emit("finish-calculations", {'results': macros, 'demo': userDetails});
         }
     }
@@ -62,7 +63,7 @@ export default class Calculations {
     getPhaseCountFromDataInputs() {
         let phases = 1;
         const genderSelected = this.calculationData.gender.options[this.calculationData.gender.value].toLowerCase();
-        const stageOfLifeSelected = parseInt(this.calculationData.stageOfLife.value);
+        const stageOfLifeSelected = parseInt(this.calculationData.stageOfLife.value);        
 
         if(genderSelected == 'female'){
             if(stageOfLifeSelected === 1) { // Menstruating
@@ -75,8 +76,12 @@ export default class Calculations {
 
     calculateMaleMacros() {
         const selectedGoal = parseInt(this.calculationData.goals.value);
+        const customizedMacros = parseInt(this.calculationData.customizedMacros.value);
         let multiplier = 1;
         let caloriesToConsumePerDay = this.tdee;
+        let proteinCaloriesWorkingFormula = 0.0;
+        let fatCaloriesWorkingFormula = 0.0;
+        let carbsCalorieWorkingFormula = 0.0;
 
         /**
          * STEP #1
@@ -96,9 +101,15 @@ export default class Calculations {
         /**
          * STEP #2
          */
-        const proteinCaloriesWorkingFormula = caloriesToConsumePerDay * this.config.maleMacrosProteinCaloriesWorkingFormula;
-        const fatCaloriesWorkingFormula = caloriesToConsumePerDay * this.config.maleMacrosFatCaloriesWorkingFormula;
-        const carbsCalorieWorkingFormula = caloriesToConsumePerDay * this.config.maleMacrosCarbsCaloriesWorkingFormula;
+        if(customizedMacros === 2) {
+            proteinCaloriesWorkingFormula = caloriesToConsumePerDay * (this.calculationData.customizedProtein.value * 0.01);
+            fatCaloriesWorkingFormula = caloriesToConsumePerDay * (this.calculationData.customizedFat.value * 0.01);
+            carbsCalorieWorkingFormula = caloriesToConsumePerDay * (this.calculationData.customizedCarbs.value * 0.01);
+        } else {
+            proteinCaloriesWorkingFormula = caloriesToConsumePerDay * this.config.maleMacrosProteinCaloriesWorkingFormula;
+            fatCaloriesWorkingFormula = caloriesToConsumePerDay * this.config.maleMacrosFatCaloriesWorkingFormula;
+            carbsCalorieWorkingFormula = caloriesToConsumePerDay * this.config.maleMacrosCarbsCaloriesWorkingFormula;
+        }        
 
         /**
          * STEP #3
@@ -117,8 +128,12 @@ export default class Calculations {
 
     calculateMenopausalMacros() {
         const selectedGoal = parseInt(this.calculationData.goals.value);
+        const customizedMacros = parseInt(this.calculationData.customizedMacros.value);
         let multiplier = 1;
         let caloriesToConsumePerDay = this.tdee;
+        let proteinCaloriesWorkingFormula = 0.0;
+        let fatCaloriesWorkingFormula = 0.0;
+        let carbsCalorieWorkingFormula = 0.0;
 
         /**
          * STEP #1
@@ -138,9 +153,15 @@ export default class Calculations {
         /**
          * STEP #2
          */
-        const proteinCaloriesWorkingFormula = caloriesToConsumePerDay * this.config.menopausalMacrosProteinCaloriesWorkingFormula;
-        const fatCaloriesWorkingFormula = caloriesToConsumePerDay * this.config.menopausalMacrosFatCaloriesWorkingFormula;
-        const carbsCalorieWorkingFormula = caloriesToConsumePerDay * this.config.menopausalMacrosCarbsCaloriesWorkingFormula;
+        if(customizedMacros === 2) {
+            proteinCaloriesWorkingFormula = caloriesToConsumePerDay * (this.calculationData.customizedProtein.value * 0.01);
+            fatCaloriesWorkingFormula = caloriesToConsumePerDay * (this.calculationData.customizedFat.value * 0.01);
+            carbsCalorieWorkingFormula = caloriesToConsumePerDay * (this.calculationData.customizedCarbs.value * 0.01);
+        } else {
+            proteinCaloriesWorkingFormula = caloriesToConsumePerDay * this.config.menopausalMacrosProteinCaloriesWorkingFormula;
+            fatCaloriesWorkingFormula = caloriesToConsumePerDay * this.config.menopausalMacrosFatCaloriesWorkingFormula;
+            carbsCalorieWorkingFormula = caloriesToConsumePerDay * this.config.menopausalMacrosCarbsCaloriesWorkingFormula;
+        }        
 
         /**
          * STEP #3
@@ -215,8 +236,12 @@ export default class Calculations {
 
     calculateGeneralMacros() {
         const selectedGoal = parseInt(this.calculationData.goals.value);
+        const customizedMacros = parseInt(this.calculationData.customizedMacros.value);
         let multiplier = 1;
         let caloriesToConsumePerDay = this.tdee;
+        let proteinCaloriesWorkingFormula = 0.0;
+        let fatCaloriesWorkingFormula = 0.0;
+        let carbsCalorieWorkingFormula = 0.0;
 
         /**
          * STEP #1
@@ -236,9 +261,15 @@ export default class Calculations {
         /**
          * STEP #2
          */
-        const proteinCaloriesWorkingFormula = caloriesToConsumePerDay * this.config.generalMacrosProteinCaloriesWorkingFormula;
-        const fatCaloriesWorkingFormula = caloriesToConsumePerDay * this.config.generalMacrosFatCaloriesWorkingFormula;
-        const carbsCalorieWorkingFormula = caloriesToConsumePerDay * this.config.generalMacrosCarbsCaloriesWorkingFormula;
+        if(customizedMacros === 2) {
+            proteinCaloriesWorkingFormula = caloriesToConsumePerDay * (this.calculationData.customizedProtein.value * 0.01);
+            fatCaloriesWorkingFormula = caloriesToConsumePerDay * (this.calculationData.customizedFat.value * 0.01);
+            carbsCalorieWorkingFormula = caloriesToConsumePerDay * (this.calculationData.customizedCarbs.value * 0.01);
+        } else {
+            proteinCaloriesWorkingFormula = caloriesToConsumePerDay * this.config.generalMacrosProteinCaloriesWorkingFormula;
+            fatCaloriesWorkingFormula = caloriesToConsumePerDay * this.config.generalMacrosFatCaloriesWorkingFormula;
+            carbsCalorieWorkingFormula = caloriesToConsumePerDay * this.config.generalMacrosCarbsCaloriesWorkingFormula;
+        }
 
         /**
          * STEP #3
@@ -328,7 +359,8 @@ export default class Calculations {
             let monthlyPhases = {};
             const phaseCount = this.getPhaseCountFromDataInputs();
             const gender = parseInt(this.calculationData.gender.value);
-            const stageOfLife = parseInt(this.calculationData.stageOfLife.value);
+            const stageOfLife = parseInt(this.calculationData.stageOfLife.value); 
+            const customizedMacros = parseInt(this.calculationData.customizedMacros.value);                        
 
             if(phaseCount == 1) {                
                 // Female
@@ -350,9 +382,16 @@ export default class Calculations {
             if(phaseCount > 1) {
                 monthlyPhases['general'] = this.calculateGeneralMacros();
                 
-                for (let index = 1; index < (phaseCount+1); index++) {
-                    monthlyPhases['phase' + index] = this.getMacrosForPhase(index);            
-                } 
+                /**
+                 * if customized macros numbers are set
+                 * then only 1 macro grams results will 
+                 * be shown to the end user
+                 */
+                if(customizedMacros !== 2){
+                    for (let index = 1; index < (phaseCount+1); index++) {
+                        monthlyPhases['phase' + index] = this.getMacrosForPhase(index);            
+                    } 
+                }
             }
 
             response(monthlyPhases);
